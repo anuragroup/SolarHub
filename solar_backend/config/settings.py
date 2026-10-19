@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
+from datetime import timedelta
 
 from dotenv import load_dotenv
 
@@ -170,3 +170,18 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
+
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    # Access token valid for 1 hour
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
+
+    # Refresh token valid for 7 days
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+
+    # Refresh token settings
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+}
