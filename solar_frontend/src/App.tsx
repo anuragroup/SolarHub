@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Alert,
@@ -13,7 +14,6 @@ import {
 import AppLayout from "./components/layout/AppLayout";
 import { useAuth } from "./context/AuthContext";
 
-
 function App() {
   const { user, loading, login, logout } = useAuth();
 
@@ -22,10 +22,16 @@ function App() {
   const [loginLoading, setLoginLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = async () => {
+  const handleLogin = async (
+    event?: React.FormEvent<HTMLFormElement>
+  ) => {
+    event?.preventDefault();
+
+    if (loginLoading) return;
+
     setError("");
 
-    if (!username || !password) {
+    if (!username.trim() || !password) {
       setError("Please enter your username and password.");
       return;
     }
@@ -33,7 +39,7 @@ function App() {
     try {
       setLoginLoading(true);
 
-      await login(username, password);
+      await login(username.trim(), password);
     } catch (error: any) {
       console.error("LOGIN ERROR:", error);
       console.error("SERVER RESPONSE:", error.response?.data);
@@ -115,47 +121,55 @@ function App() {
             </Alert>
           )}
 
-          <TextField
-            label="Username"
-            value={username}
-            onChange={(event) =>
-              setUsername(event.target.value)
-            }
-            margin="normal"
-            autoComplete="username"
-            fullWidth
-          />
-
-          <TextField
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(event) =>
-              setPassword(event.target.value)
-            }
-            margin="normal"
-            autoComplete="current-password"
-            fullWidth
-          />
-
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            size="large"
-            sx={{ mt: 3 }}
-            onClick={handleLogin}
-            disabled={loginLoading}
+          <Box
+            component="form"
+            onSubmit={handleLogin}
           >
-            {loginLoading ? (
-              <CircularProgress
-                size={24}
-                color="inherit"
-              />
-            ) : (
-              "Sign In"
-            )}
-          </Button>
+            <TextField
+              label="Username"
+              value={username}
+              onChange={(event) =>
+                setUsername(event.target.value)
+              }
+              margin="normal"
+              autoComplete="username"
+              fullWidth
+              autoFocus
+              required
+            />
+
+            <TextField
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(event) =>
+                setPassword(event.target.value)
+              }
+              margin="normal"
+              autoComplete="current-password"
+              fullWidth
+              required
+            />
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              size="large"
+              sx={{ mt: 3 }}
+              disabled={loginLoading}
+            >
+              {loginLoading ? (
+                <CircularProgress
+                  size={24}
+                  color="inherit"
+                />
+              ) : (
+                "Sign In"
+              )}
+            </Button>
+          </Box>
 
           <Typography
             component="p"

@@ -38,9 +38,7 @@ const TopBar: React.FC<TopBarProps> = ({
 }) => {
   const theme = useTheme();
 
-  const isMobile = useMediaQuery(
-    theme.breakpoints.down("md")
-  );
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <AppBar
@@ -55,15 +53,8 @@ const TopBar: React.FC<TopBarProps> = ({
     >
       <Toolbar
         sx={{
-          minHeight: {
-            xs: 64,
-            md: 70,
-          },
-          px: {
-            xs: 1.5,
-            sm: 2.5,
-            md: 3,
-          },
+          minHeight: { xs: 64, md: 76 },
+          px: { xs: 1.5, sm: 2.5, md: 3 },
           gap: 1,
         }}
       >
@@ -76,75 +67,67 @@ const TopBar: React.FC<TopBarProps> = ({
             sx={{
               color: ORANGE,
               mr: 0.5,
-              "&:hover": {
-                backgroundColor: NAVY_HOVER,
-              },
+              "&:hover": { backgroundColor: NAVY_HOVER },
             }}
           >
             <MenuIcon />
           </IconButton>
         )}
 
-        {/* SolarHub branding */}
+        {/* Anura Group - Solar Hub branding */}
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             gap: 1.25,
-            minWidth: {
-              xs: "auto",
-              md: 220,
-            },
+            minWidth: { xs: "auto", md: 260 },
           }}
         >
           <WbSunnyOutlinedIcon
             sx={{
-              fontSize: {
-                xs: 25,
-                md: 28,
-              },
+              fontSize: { xs: 27, md: 32 },
               color: ORANGE,
+              flexShrink: 0,
             }}
           />
 
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: 700,
-              color: WHITE,
-              letterSpacing: "-0.4px",
-              fontSize: {
-                xs: "1.1rem",
-                sm: "1.3rem",
-              },
-              whiteSpace: "nowrap",
-            }}
-          >
-            Solar<Typography
-              component="span"
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography
+              sx={{
+                color: WHITE,
+                fontWeight: 700,
+                fontSize: { xs: "0.85rem", sm: "0.95rem", md: "1rem" },
+                lineHeight: 1.3,
+                letterSpacing: "0.2px",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Anura Group
+            </Typography>
+
+            <Typography
               sx={{
                 color: GREEN,
                 fontWeight: 700,
-                fontSize: "inherit",
+                fontSize: { xs: "1rem", sm: "1.15rem", md: "1.3rem" },
+                lineHeight: 1.3,
+                letterSpacing: "-0.3px",
+                whiteSpace: "nowrap",
               }}
-            >Hub</Typography>
-          </Typography>
+            >
+              Solar Hub
+            </Typography>
+          </Box>
         </Box>
 
         {/* Current page */}
         <Typography
           variant="body1"
           sx={{
-            ml: {
-              xs: 0.5,
-              md: 2,
-            },
+            ml: { xs: 0.5, md: 2 },
             color: MUTED,
             fontWeight: 500,
-            display: {
-              xs: "none",
-              sm: "block",
-            },
+            display: { xs: "none", sm: "block" },
             whiteSpace: "nowrap",
           }}
         >
@@ -174,15 +157,9 @@ const TopBar: React.FC<TopBarProps> = ({
         <Typography
           variant="body2"
           sx={{
-            mr: {
-              xs: 0.5,
-              sm: 1,
-            },
+            mr: { xs: 0.5, sm: 1 },
             color: WHITE,
-            display: {
-              xs: "none",
-              sm: "block",
-            },
+            display: { xs: "none", sm: "block" },
           }}
         >
           {username}
@@ -195,30 +172,15 @@ const TopBar: React.FC<TopBarProps> = ({
           aria-label="Logout"
           sx={{
             color: WHITE,
-            minWidth: {
-              xs: 40,
-              sm: "auto",
-            },
-            px: {
-              xs: 1,
-              sm: 1.5,
-            },
-            "& .MuiButton-startIcon": {
-              color: ORANGE,
-            },
-            "&:hover": {
-              backgroundColor: NAVY_HOVER,
-            },
+            minWidth: { xs: 40, sm: "auto" },
+            px: { xs: 1, sm: 1.5 },
+            "& .MuiButton-startIcon": { color: ORANGE },
+            "&:hover": { backgroundColor: NAVY_HOVER },
           }}
         >
           <Box
             component="span"
-            sx={{
-              display: {
-                xs: "none",
-                sm: "inline",
-              },
-            }}
+            sx={{ display: { xs: "none", sm: "inline" } }}
           >
             Logout
           </Box>
