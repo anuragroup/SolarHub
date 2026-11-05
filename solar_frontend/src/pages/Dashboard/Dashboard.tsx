@@ -163,9 +163,12 @@ export default function Dashboard() {
         />
 
         <Box>
-          <Typography variant="h4" fontWeight={700}>
-            SolarHub Dashboard
-          </Typography>
+         <Typography
+  variant="h4"
+  sx={{ fontWeight: 700 }}
+>
+  SolarHub Dashboard
+</Typography>
 
           <Typography color="text.secondary">
             Solar plant operations overview
@@ -183,10 +186,9 @@ export default function Dashboard() {
                 </Typography>
 
                 <Typography
-                  variant="h4"
-                  fontWeight={700}
-                  sx={{ mt: 1, mb: 1 }}
-                >
+  variant="h4"
+  sx={{ mt: 1, mb: 1, fontWeight: 700 }}
+>
                   {card.value}
                 </Typography>
 

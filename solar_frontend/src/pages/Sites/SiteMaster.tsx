@@ -684,17 +684,14 @@ const SiteMaster: React.FC = () => {
 
         <Box>
 
-          <Typography
-            variant="h4"
-            fontWeight={800}
-            sx={{
-              fontSize: {
-                xs: "1.6rem",
-                sm: "2rem",
-              },
-              color: "#111C30",
-            }}
-          >
+         <Typography
+          variant="subtitle1"
+          sx={{
+              mt: 2,
+              mb: 2,
+              fontWeight: 600
+          }}
+      >
             Site & Asset Master
           </Typography>
 
@@ -958,7 +955,9 @@ const SiteMaster: React.FC = () => {
 
                       <TableCell>
 
-                        <Typography fontWeight={600}>
+                        <Typography
+            sx={{ fontWeight: 600 }}
+          >
                           {site.name}
                         </Typography>
 
@@ -1132,7 +1131,7 @@ const SiteMaster: React.FC = () => {
 
           <Typography
             variant="h6"
-            fontWeight={700}
+            sx={{ fontWeight: 700 }}
           >
             {dialogMode === "add"
               ? "Add Solar Site"
@@ -1192,8 +1191,7 @@ const SiteMaster: React.FC = () => {
 
           <Typography
             variant="subtitle1"
-            fontWeight={700}
-            sx={{ mb: 2 }}
+            sx={{ fontWeight: 700, mb: 2 }}
           >
             Site Identification
           </Typography>
@@ -1252,8 +1250,7 @@ const SiteMaster: React.FC = () => {
 
           <Typography
             variant="subtitle1"
-            fontWeight={700}
-            sx={{
+            sx={{ fontWeight: 700,
               mt: 4,
               mb: 2,
             }}
@@ -1350,8 +1347,7 @@ const SiteMaster: React.FC = () => {
 
           <Typography
             variant="subtitle1"
-            fontWeight={700}
-            sx={{
+            sx={{ fontWeight: 700,
               mt: 4,
               mb: 2,
             }}
@@ -1426,8 +1422,7 @@ const SiteMaster: React.FC = () => {
 
           <Typography
             variant="subtitle1"
-            fontWeight={700}
-            sx={{
+            sx={{ fontWeight: 700,
               mt: 4,
               mb: 2,
             }}
@@ -1491,8 +1486,7 @@ const SiteMaster: React.FC = () => {
 
           <Typography
             variant="subtitle1"
-            fontWeight={700}
-            sx={{
+            sx={{ fontWeight: 700,
               mt: 4,
               mb: 2,
             }}

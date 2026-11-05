@@ -57,7 +57,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
   const renderActivePage = () => {
     switch (activePage) {
       case "dashboard":
-        return <Dashboard onLogout={onLogout} />;
+        return <Dashboard />;
 
       case "sites":
         return <SiteMaster />;
@@ -78,7 +78,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
         return <Reports />;
 
       default:
-        return <Dashboard onLogout={onLogout} />;
+        return <Dashboard />;
     }
   };
 

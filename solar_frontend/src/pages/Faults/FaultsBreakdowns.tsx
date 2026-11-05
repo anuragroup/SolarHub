@@ -917,27 +917,23 @@ const FaultsBreakdowns: React.FC = () => {
 
       {/* PAGE HEADER */}
 
-      <Stack
-
-        direction={{ xs: "column", md: "row" }}
-
-        justifyContent="space-between"
-
-        alignItems={{ xs: "stretch", md: "center" }}
-
-        spacing={2}
-
-        sx={{ mb: 3 }}
-
-      >
-
+     <Stack
+  direction={{ xs: "column", md: "row" }}
+  spacing={2}
+  sx={{
+    mb: 3,
+    justifyContent: "space-between",
+    alignItems: { xs: "stretch", md: "center" },
+  }}
+>
         <Box>
 
-          <Typography variant="h4" fontWeight={700}>
-
-            Faults &amp; Breakdowns
-
-          </Typography>
+         <Typography
+  variant="h4"
+  sx={{ fontWeight: 700 }}
+>
+  Faults &amp; Breakdowns
+</Typography>
 
           <Typography
 
@@ -1067,19 +1063,12 @@ const FaultsBreakdowns: React.FC = () => {
 
               </Typography>
 
-              <Typography
-
-                variant="h4"
-
-                fontWeight={700}
-
-                sx={{ mt: 1 }}
-
-              >
-
-                {loading ? "—" : card.value}
-
-              </Typography>
+             <Typography
+  variant="h4"
+  sx={{ mt: 1, fontWeight: 700 }}
+>
+  {loading ? "—" : card.value}
+</Typography>
 
             </CardContent>
 
@@ -1096,18 +1085,11 @@ const FaultsBreakdowns: React.FC = () => {
         <CardContent>
 
           <Typography
-
-            variant="h6"
-
-            fontWeight={600}
-
-            sx={{ mb: 2 }}
-
-          >
-
-            Fault Register
-
-          </Typography>
+  variant="h6"
+  sx={{ mb: 2, fontWeight: 600 }}
+>
+  Fault Register
+</Typography>
 
           <Box
 
@@ -1273,18 +1255,12 @@ const FaultsBreakdowns: React.FC = () => {
 
                       <TableCell>
 
-                        <Typography
-
-                          fontWeight={600}
-
-                          variant="body2"
-
-                        >
-
-                          {item.title}
-
-                        </Typography>
-
+                       <Typography
+  variant="body2"
+  sx={{ fontWeight: 600 }}
+>
+  {item.title}
+</Typography>
                         <Typography
 
                           variant="caption"
@@ -1303,19 +1279,15 @@ const FaultsBreakdowns: React.FC = () => {
 
                         {item.site_name || "—"}
 
-                        <Typography
-
-                          variant="caption"
-
-                          display="block"
-
-                          color="text.secondary"
-
-                        >
-
-                          {item.site_asset_code || ""}
-
-                        </Typography>
+                      <Typography
+  variant="caption"
+  sx={{
+    display: "block",
+    color: "text.secondary",
+  }}
+>
+  ...
+</Typography>
 
                       </TableCell>
 
@@ -1781,7 +1753,7 @@ const FaultsBreakdowns: React.FC = () => {
 
               <Box>
 
-                <Typography variant="subtitle1" fontWeight={600}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
 
                   {selectedBreakdown.title}
 

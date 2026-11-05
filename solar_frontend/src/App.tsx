@@ -88,15 +88,15 @@ function App() {
       <Card sx={{ width: "100%", maxWidth: 420 }}>
         <CardContent sx={{ p: 4 }}>
           <Box sx={{ textAlign: "center", mb: 4 }}>
-            <Typography
-              component="h1"
-              variant="h4"
-              color="primary"
-              fontWeight={700}
-              gutterBottom
-            >
-              SolarHub
-            </Typography>
+          <Typography
+  component="h1"
+  variant="h4"
+  color="primary"
+  sx={{ fontWeight: 700 }}
+  gutterBottom
+>
+  SolarHub
+</Typography>
 
             <Typography
               component="p"

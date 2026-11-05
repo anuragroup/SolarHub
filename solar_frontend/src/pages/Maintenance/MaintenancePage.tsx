@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useState } from "react";
 import {
   Alert,
@@ -508,797 +507,805 @@ export default function MaintenancePage() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 1600, mx: "auto" }}>
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        justifyContent="space-between"
-        alignItems={{ xs: "stretch", sm: "center" }}
-        spacing={2}
-        sx={{ mb: 3 }}
-      >
-        <Box>
-          <Typography variant="h4" fontWeight={700}>
-            Maintenance Management
-          </Typography>
-
-          <Typography color="text.secondary" sx={{ mt: 0.5 }}>
-            Plan maintenance and track solar equipment breakdowns.
-          </Typography>
-        </Box>
-
-        <Stack direction="row" spacing={1} flexWrap="wrap">
-          <Button
-            variant="outlined"
-            startIcon={<RefreshIcon />}
-            onClick={() => void loadAll()}
-            disabled={loading}
-          >
-            Refresh
-          </Button>
-
-          {tab === 0 && (
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={openNewSchedule}
-            >
-              Add Maintenance
-            </Button>
-          )}
-
-          {tab === 1 && (
-            <Button
-              variant="contained"
-              color="error"
-              startIcon={<AddIcon />}
-              onClick={openNewBreakdown}
-            >
-              Report Breakdown
-            </Button>
-          )}
-        </Stack>
-      </Stack>
-
-      {pageError && (
-        <Alert
-          severity="error"
-          sx={{ mb: 2 }}
-          action={
-            <Button color="inherit" onClick={() => void loadAll()}>
-              Retry
-            </Button>
-          }
+    <Stack
+      direction={{ xs: "column", sm: "row" }}
+      spacing={2}
+      sx={{
+        mb: 3,
+        justifyContent: "space-between",
+        alignItems: { xs: "stretch", sm: "center" },
+      }}
+    >
+      <Box>
+        <Typography
+          variant="h4"
+          sx={{ fontWeight: 700 }}
         >
-          {pageError}
-        </Alert>
-      )}
+          Maintenance Management
+        </Typography>
 
-      {/* SUMMARY CARDS */}
-
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: {
-            xs: "1fr 1fr",
-            md: "repeat(4, minmax(0, 1fr))",
-          },
-          gap: 2,
-          mb: 3,
-        }}
-      >
-        <Card variant="outlined">
-          <CardContent>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <BuildIcon color="primary" />
-              <Typography color="text.secondary" variant="body2">
-                Upcoming
-              </Typography>
-            </Stack>
-            <Typography variant="h4" fontWeight={700} sx={{ mt: 1 }}>
-              {upcomingCount}
-            </Typography>
-          </CardContent>
-        </Card>
-
-        <Card variant="outlined">
-          <CardContent>
-            <Typography color="text.secondary" variant="body2">
-              Overdue Maintenance
-            </Typography>
-            <Typography
-              variant="h4"
-              fontWeight={700}
-              color={overdueCount ? "error.main" : "text.primary"}
-              sx={{ mt: 1 }}
-            >
-              {overdueCount}
-            </Typography>
-          </CardContent>
-        </Card>
-
-        <Card variant="outlined">
-          <CardContent>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <WarningAmberIcon color="error" />
-              <Typography color="text.secondary" variant="body2">
-                Open Breakdowns
-              </Typography>
-            </Stack>
-            <Typography
-              variant="h4"
-              fontWeight={700}
-              sx={{ mt: 1 }}
-            >
-              {openBreakdownCount}
-            </Typography>
-          </CardContent>
-        </Card>
-
-        <Card variant="outlined">
-          <CardContent>
-            <Typography color="text.secondary" variant="body2">
-              Completed Maintenance
-            </Typography>
-            <Typography
-              variant="h4"
-              fontWeight={700}
-              sx={{ mt: 1 }}
-            >
-              {completedCount}
-            </Typography>
-          </CardContent>
-        </Card>
+        <Typography color="text.secondary" sx={{ mt: 0.5 }}>
+          Plan maintenance and track solar equipment breakdowns.
+        </Typography>
       </Box>
 
-      {/* TABS */}
-
-      <Paper variant="outlined">
-        <Tabs
-          value={tab}
-          onChange={(_, value: number) => {
-            setTab(value);
-            setSearch("");
-          }}
-          variant="scrollable"
-          scrollButtons="auto"
+      <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap" }}>
+        <Button
+          variant="outlined"
+          startIcon={<RefreshIcon />}
+          onClick={() => void loadAll()}
+          disabled={loading}
         >
-          <Tab label="Maintenance Schedule" />
-          <Tab label="Breakdown Tracking" />
-        </Tabs>
+          Refresh
+        </Button>
 
-        <Box sx={{ p: { xs: 1.5, md: 2 } }}>
-          <Stack
-            direction={{ xs: "column", md: "row" }}
-            spacing={2}
-            sx={{ mb: 2 }}
+        {tab === 0 && (
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={openNewSchedule}
           >
-            <TextField
-              label="Search"
-              size="small"
-              fullWidth
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search title, site or equipment"
-            />
+            Add Maintenance
+          </Button>
+        )}
 
-            {tab === 0 ? (
-              <FormControl size="small" sx={{ minWidth: 190 }}>
-                <InputLabel id="schedule-status-label">
-                  Status
-                </InputLabel>
-                <Select
-                  labelId="schedule-status-label"
-                  label="Status"
-                  value={scheduleFilter}
-                  onChange={(event) => setScheduleFilter(event.target.value)}
-                >
-                  <MenuItem value="ALL">All statuses</MenuItem>
-                  <MenuItem value="SCHEDULED">Scheduled</MenuItem>
-                  <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-                  <MenuItem value="COMPLETED">Completed</MenuItem>
-                  <MenuItem value="CANCELLED">Cancelled</MenuItem>
-                </Select>
-              </FormControl>
-            ) : (
-              <>
-                <FormControl size="small" sx={{ minWidth: 170 }}>
-                  <InputLabel id="breakdown-status-label">
-                    Status
-                  </InputLabel>
-                  <Select
-                    labelId="breakdown-status-label"
-                    label="Status"
-                    value={breakdownStatusFilter}
-                    onChange={(event) =>
-                      setBreakdownStatusFilter(event.target.value)
-                    }
-                  >
-                    <MenuItem value="ALL">All statuses</MenuItem>
-                    <MenuItem value="OPEN">Open</MenuItem>
-                    <MenuItem value="INVESTIGATING">
-                      Investigating
-                    </MenuItem>
-                    <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-                    <MenuItem value="RESOLVED">Resolved</MenuItem>
-                    <MenuItem value="CLOSED">Closed</MenuItem>
-                  </Select>
-                </FormControl>
+        {tab === 1 && (
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<AddIcon />}
+            onClick={openNewBreakdown}
+          >
+            Report Breakdown
+          </Button>
+        )}
+      </Stack>
+    </Stack>
 
-                <FormControl size="small" sx={{ minWidth: 150 }}>
-                  <InputLabel id="breakdown-priority-label">
-                    Priority
-                  </InputLabel>
-                  <Select
-                    labelId="breakdown-priority-label"
-                    label="Priority"
-                    value={priorityFilter}
-                    onChange={(event) => setPriorityFilter(event.target.value)}
-                  >
-                    <MenuItem value="ALL">All priorities</MenuItem>
-                    <MenuItem value="LOW">Low</MenuItem>
-                    <MenuItem value="MEDIUM">Medium</MenuItem>
-                    <MenuItem value="HIGH">High</MenuItem>
-                    <MenuItem value="CRITICAL">Critical</MenuItem>
-                  </Select>
-                </FormControl>
-              </>
-            )}
+    {pageError && (
+      <Alert
+        severity="error"
+        sx={{ mb: 2 }}
+        action={
+          <Button color="inherit" onClick={() => void loadAll()}>
+            Retry
+          </Button>
+        }
+      >
+        {pageError}
+      </Alert>
+    )}
+
+    {/* SUMMARY CARDS */}
+
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: {
+          xs: "1fr 1fr",
+          md: "repeat(4, minmax(0, 1fr))",
+        },
+        gap: 2,
+        mb: 3,
+      }}
+    >
+      <Card variant="outlined">
+        <CardContent>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ alignItems: "center" }}
+          >
+            <BuildIcon color="primary" />
+            <Typography color="text.secondary" variant="body2">
+              Upcoming Maintenance
+            </Typography>
+          </Stack>
+          <Typography variant="h4" sx={{ mt: 1, fontWeight: 700 }}>
+            {upcomingCount}
+          </Typography>
+        </CardContent>
+      </Card>
+
+      <Card variant="outlined">
+        <CardContent>
+          <Typography color="text.secondary" variant="body2">
+            Overdue Maintenance
+          </Typography>
+          <Typography
+            variant="h4"
+            color={overdueCount ? "error.main" : "text.primary"}
+            sx={{ mt: 1, fontWeight: 700 }}
+          >
+            {overdueCount}
+          </Typography>
+        </CardContent>
+      </Card>
+
+      <Card variant="outlined">
+        <CardContent>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ alignItems: "center" }}
+          >
+            <WarningAmberIcon color="error" />
+            <Typography color="text.secondary" variant="body2">
+              Open Breakdowns
+            </Typography>
           </Stack>
 
-          {loading ? (
-            <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
-              <CircularProgress />
-            </Box>
-          ) : tab === 0 ? (
-            <TableContainer>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Title</TableCell>
-                    <TableCell>Site</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Scheduled Date</TableCell>
-                    <TableCell>Assigned To</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell align="right">Action</TableCell>
-                  </TableRow>
-                </TableHead>
+          <Typography variant="h4" sx={{ mt: 1, fontWeight: 700 }}>
+            {openBreakdownCount}
+          </Typography>
+        </CardContent>
+      </Card>
 
-                <TableBody>
-                  {filteredSchedules.map((item) => (
-                    <TableRow key={item.id} hover>
-                      <TableCell>
-                        <Typography fontWeight={600}>
-                          {item.title}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          {item.site_asset_code}
-                        </Typography>
-                      </TableCell>
+      <Card variant="outlined">
+        <CardContent>
+          <Typography color="text.secondary" variant="body2">
+            Completed Maintenance
+          </Typography>
+          <Typography
+            variant="h4"
+            sx={{ mt: 1, fontWeight: 700 }}
+          >
+            {completedCount}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Box>
 
-                      <TableCell>{item.site_name}</TableCell>
-                      <TableCell>
-                        {formatLabel(item.maintenance_type)}
-                      </TableCell>
-                      <TableCell>{item.scheduled_date}</TableCell>
-                      <TableCell>
-                        {item.assigned_to_name || "Unassigned"}
-                      </TableCell>
-                      <TableCell>
-                        <Chip
-                          size="small"
-                          label={formatLabel(item.status)}
-                          color={statusColor(item.status)}
-                        />
-                      </TableCell>
-                      <TableCell align="right">
-                        <Button
-                          size="small"
-                          onClick={() => openEditSchedule(item)}
-                        >
-                          Edit
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+    {/* TABS */}
 
-                  {filteredSchedules.length === 0 && (
-                    <TableRow>
-                      <TableCell colSpan={7} align="center">
-                        <Typography color="text.secondary" sx={{ py: 4 }}>
-                          No maintenance schedules found.
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <TableContainer>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Breakdown</TableCell>
-                    <TableCell>Site</TableCell>
-                    <TableCell>Equipment</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Priority</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell align="right">Action</TableCell>
-                  </TableRow>
-                </TableHead>
-
-                <TableBody>
-                  {filteredBreakdowns.map((item) => (
-                    <TableRow key={item.id} hover>
-                      <TableCell>
-                        <Typography fontWeight={600}>
-                          {item.title}
-                        </Typography>
-                        <Typography
-                          variant="caption"
-                          color="text.secondary"
-                        >
-                          {item.site_asset_code}
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell>{item.site_name}</TableCell>
-                      <TableCell>
-                        {item.equipment_name || "—"}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(item.breakdown_date).toLocaleString()}
-                      </TableCell>
-                      <TableCell>
-                        <Chip
-                          size="small"
-                          label={item.priority}
-                          color={statusColor(item.priority)}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Chip
-                          size="small"
-                          label={formatLabel(item.status)}
-                          color={statusColor(item.status)}
-                        />
-                      </TableCell>
-                      <TableCell align="right">
-                        <Button
-                          size="small"
-                          onClick={() => openEditBreakdown(item)}
-                        >
-                          Edit
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-
-                  {filteredBreakdowns.length === 0 && (
-                    <TableRow>
-                      <TableCell colSpan={7} align="center">
-                        <Typography color="text.secondary" sx={{ py: 4 }}>
-                          No breakdown records found.
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
-        </Box>
-      </Paper>
-
-      {/* MAINTENANCE DIALOG */}
-
-      <Dialog
-        open={scheduleDialog}
-        onClose={() => !saving && setScheduleDialog(false)}
-        fullWidth
-        maxWidth="md"
+    <Paper variant="outlined">
+      <Tabs
+        value={tab}
+        onChange={(_, value: number) => {
+          setTab(value);
+          setSearch("");
+        }}
+        variant="scrollable"
+        scrollButtons="auto"
       >
-        <DialogTitle>
-          {editingSchedule ? "Edit Maintenance" : "Add Maintenance Schedule"}
-        </DialogTitle>
+        <Tab label="Maintenance Schedule" />
+        <Tab label="Breakdown Tracking" />
+      </Tabs>
 
-        <DialogContent dividers>
-          <Stack spacing={2} sx={{ pt: 1 }}>
-            {formError && <Alert severity="error">{formError}</Alert>}
+      <Box sx={{ p: { xs: 1.5, md: 2 } }}>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={2}
+          sx={{ mb: 2 }}
+        >
+          <TextField
+            label="Search"
+            size="small"
+            fullWidth
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search title, site or equipment"
+          />
 
-            <FormControl fullWidth required>
-              <InputLabel id="maintenance-site-label">Site</InputLabel>
+          {tab === 0 ? (
+            <FormControl size="small" sx={{ minWidth: 190 }}>
+              <InputLabel id="schedule-status-label">
+                Status
+              </InputLabel>
               <Select
-                labelId="maintenance-site-label"
-                label="Site"
-                value={scheduleForm.site}
-                onChange={(event) =>
-                  setScheduleForm((prev) => ({
-                    ...prev,
-                    site: event.target.value as number | "",
-                  }))
-                }
-              >
-                {sites.map((site) => (
-                  <MenuItem key={site.id} value={site.id}>
-                    {site.name} ({site.asset_code})
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <TextField
-              label="Maintenance Title"
-              required
-              fullWidth
-              value={scheduleForm.title}
-              onChange={(event) =>
-                setScheduleForm((prev) => ({
-                  ...prev,
-                  title: event.target.value,
-                }))
-              }
-            />
-
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-              <FormControl fullWidth>
-                <InputLabel id="maintenance-type-label">
-                  Maintenance Type
-                </InputLabel>
-                <Select
-                  labelId="maintenance-type-label"
-                  label="Maintenance Type"
-                  value={scheduleForm.maintenance_type}
-                  onChange={(event) =>
-                    setScheduleForm((prev) => ({
-                      ...prev,
-                      maintenance_type: event.target.value as MaintenanceType,
-                    }))
-                  }
-                >
-                  <MenuItem value="PREVENTIVE">Preventive</MenuItem>
-                  <MenuItem value="CORRECTIVE">Corrective</MenuItem>
-                  <MenuItem value="INSPECTION">Inspection</MenuItem>
-                  <MenuItem value="CLEANING">Panel Cleaning</MenuItem>
-                  <MenuItem value="OTHER">Other</MenuItem>
-                </Select>
-              </FormControl>
-
-              <TextField
-                label="Scheduled Date"
-                type="date"
-                fullWidth
-                required
-                value={scheduleForm.scheduled_date}
-                onChange={(event) =>
-                  setScheduleForm((prev) => ({
-                    ...prev,
-                    scheduled_date: event.target.value,
-                  }))
-                }
-                slotProps={{ inputLabel: { shrink: true } }}
-              />
-            </Stack>
-
-            <FormControl fullWidth>
-              <InputLabel id="maintenance-status-label">Status</InputLabel>
-              <Select
-                labelId="maintenance-status-label"
+                labelId="schedule-status-label"
                 label="Status"
-                value={scheduleForm.status}
-                onChange={(event) =>
-                  setScheduleForm((prev) => ({
-                    ...prev,
-                    status: event.target.value as MaintenanceStatus,
-                  }))
-                }
+                value={scheduleFilter}
+                onChange={(event) => setScheduleFilter(event.target.value)}
               >
+                <MenuItem value="ALL">All statuses</MenuItem>
                 <MenuItem value="SCHEDULED">Scheduled</MenuItem>
                 <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
                 <MenuItem value="COMPLETED">Completed</MenuItem>
                 <MenuItem value="CANCELLED">Cancelled</MenuItem>
               </Select>
             </FormControl>
-
-            {scheduleForm.status === "COMPLETED" && (
-              <TextField
-                label="Completed Date"
-                type="date"
-                fullWidth
-                value={scheduleForm.completed_date}
-                onChange={(event) =>
-                  setScheduleForm((prev) => ({
-                    ...prev,
-                    completed_date: event.target.value,
-                  }))
-                }
-                slotProps={{ inputLabel: { shrink: true } }}
-              />
-            )}
-
-            <TextField
-              label="Description"
-              multiline
-              minRows={2}
-              fullWidth
-              value={scheduleForm.description}
-              onChange={(event) =>
-                setScheduleForm((prev) => ({
-                  ...prev,
-                  description: event.target.value,
-                }))
-              }
-            />
-
-            <TextField
-              label="Work Performed"
-              multiline
-              minRows={2}
-              fullWidth
-              value={scheduleForm.work_performed}
-              onChange={(event) =>
-                setScheduleForm((prev) => ({
-                  ...prev,
-                  work_performed: event.target.value,
-                }))
-              }
-            />
-
-            <TextField
-              label="Remarks"
-              multiline
-              minRows={2}
-              fullWidth
-              value={scheduleForm.remarks}
-              onChange={(event) =>
-                setScheduleForm((prev) => ({
-                  ...prev,
-                  remarks: event.target.value,
-                }))
-              }
-            />
-          </Stack>
-        </DialogContent>
-
-        <DialogActions>
-          <Button
-            onClick={() => setScheduleDialog(false)}
-            disabled={saving}
-          >
-            Cancel
-          </Button>
-
-          <Button
-            variant="contained"
-            onClick={() => void saveSchedule()}
-            disabled={saving}
-          >
-            {saving ? "Saving..." : "Save Maintenance"}
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* BREAKDOWN DIALOG */}
-
-      <Dialog
-        open={breakdownDialog}
-        onClose={() => !saving && setBreakdownDialog(false)}
-        fullWidth
-        maxWidth="md"
-      >
-        <DialogTitle>
-          {editingBreakdown ? "Edit Breakdown" : "Report Breakdown"}
-        </DialogTitle>
-
-        <DialogContent dividers>
-          <Stack spacing={2} sx={{ pt: 1 }}>
-            {formError && <Alert severity="error">{formError}</Alert>}
-
-            <FormControl fullWidth required>
-              <InputLabel id="breakdown-site-label">Site</InputLabel>
-              <Select
-                labelId="breakdown-site-label"
-                label="Site"
-                value={breakdownForm.site}
-                onChange={(event) =>
-                  setBreakdownForm((prev) => ({
-                    ...prev,
-                    site: event.target.value as number | "",
-                  }))
-                }
-              >
-                {sites.map((site) => (
-                  <MenuItem key={site.id} value={site.id}>
-                    {site.name} ({site.asset_code})
+          ) : (
+            <>
+              <FormControl size="small" sx={{ minWidth: 170 }}>
+                <InputLabel id="breakdown-status-label">
+                  Status
+                </InputLabel>
+                <Select
+                  labelId="breakdown-status-label"
+                  label="Status"
+                  value={breakdownStatusFilter}
+                  onChange={(event) =>
+                    setBreakdownStatusFilter(event.target.value)
+                  }
+                >
+                  <MenuItem value="ALL">All statuses</MenuItem>
+                  <MenuItem value="OPEN">Open</MenuItem>
+                  <MenuItem value="INVESTIGATING">
+                    Investigating
                   </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                  <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
+                  <MenuItem value="RESOLVED">Resolved</MenuItem>
+                  <MenuItem value="CLOSED">Closed</MenuItem>
+                </Select>
+              </FormControl>
 
-            <TextField
-              label="Breakdown Title"
-              required
-              fullWidth
-              value={breakdownForm.title}
-              onChange={(event) =>
-                setBreakdownForm((prev) => ({
-                  ...prev,
-                  title: event.target.value,
-                }))
-              }
-            />
-
-            <TextField
-              label="Equipment Name"
-              fullWidth
-              value={breakdownForm.equipment_name}
-              onChange={(event) =>
-                setBreakdownForm((prev) => ({
-                  ...prev,
-                  equipment_name: event.target.value,
-                }))
-              }
-            />
-
-            <TextField
-              label="Breakdown Date and Time"
-              type="datetime-local"
-              required
-              fullWidth
-              value={breakdownForm.breakdown_date}
-              onChange={(event) =>
-                setBreakdownForm((prev) => ({
-                  ...prev,
-                  breakdown_date: event.target.value,
-                }))
-              }
-              slotProps={{ inputLabel: { shrink: true } }}
-            />
-
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-              <FormControl fullWidth>
-                <InputLabel id="breakdown-priority-form-label">
+              <FormControl size="small" sx={{ minWidth: 150 }}>
+                <InputLabel id="breakdown-priority-label">
                   Priority
                 </InputLabel>
                 <Select
-                  labelId="breakdown-priority-form-label"
+                  labelId="breakdown-priority-label"
                   label="Priority"
-                  value={breakdownForm.priority}
-                  onChange={(event) =>
-                    setBreakdownForm((prev) => ({
-                      ...prev,
-                      priority: event.target.value as BreakdownPriority,
-                    }))
-                  }
+                  value={priorityFilter}
+                  onChange={(event) => setPriorityFilter(event.target.value)}
                 >
+                  <MenuItem value="ALL">All priorities</MenuItem>
                   <MenuItem value="LOW">Low</MenuItem>
                   <MenuItem value="MEDIUM">Medium</MenuItem>
                   <MenuItem value="HIGH">High</MenuItem>
                   <MenuItem value="CRITICAL">Critical</MenuItem>
                 </Select>
               </FormControl>
+            </>
+          )}
+        </Stack>
 
-              <FormControl fullWidth>
-                <InputLabel id="breakdown-status-form-label">
-                  Status
-                </InputLabel>
-                <Select
-                  labelId="breakdown-status-form-label"
-                  label="Status"
-                  value={breakdownForm.status}
-                  onChange={(event) =>
-                    setBreakdownForm((prev) => ({
-                      ...prev,
-                      status: event.target.value as BreakdownStatus,
-                    }))
-                  }
-                >
-                  <MenuItem value="OPEN">Open</MenuItem>
-                  <MenuItem value="INVESTIGATING">Investigating</MenuItem>
-                  <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-                  <MenuItem value="RESOLVED">Resolved</MenuItem>
-                  <MenuItem value="CLOSED">Closed</MenuItem>
-                </Select>
-              </FormControl>
-            </Stack>
+        {loading ? (
+          <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
+            <CircularProgress />
+          </Box>
+        ) : tab === 0 ? (
+          <TableContainer>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Site</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Scheduled Date</TableCell>
+                  <TableCell>Assigned To</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell align="right">Action</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {filteredSchedules.map((item) => (
+                  <TableRow key={item.id} hover>
+                    <TableCell>
+                      <Typography sx={{ fontWeight: 600 }}>
+                        {item.title}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {item.site_asset_code}
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell>{item.site_name}</TableCell>
+                    <TableCell>
+                      {formatLabel(item.maintenance_type)}
+                    </TableCell>
+                    <TableCell>{item.scheduled_date}</TableCell>
+                    <TableCell>
+                      {item.assigned_to_name || "Unassigned"}
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        size="small"
+                        label={formatLabel(item.status)}
+                        color={statusColor(item.status)}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                        size="small"
+                        onClick={() => openEditSchedule(item)}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+
+                {filteredSchedules.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={7} align="center">
+                      <Typography color="text.secondary" sx={{ py: 4 }}>
+                        No maintenance schedules found.
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <TableContainer>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Breakdown</TableCell>
+                  <TableCell>Site</TableCell>
+                  <TableCell>Equipment</TableCell>
+                  <TableCell>Date</TableCell>
+                  <TableCell>Priority</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell align="right">Action</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {filteredBreakdowns.map((item) => (
+                  <TableRow key={item.id} hover>
+                    <TableCell>
+                      <Typography sx={{ fontWeight: 600 }}>
+                        {item.title}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        color="text.secondary"
+                      >
+                        {item.site_asset_code}
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell>{item.site_name}</TableCell>
+                    <TableCell>
+                      {item.equipment_name || "—"}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(item.breakdown_date).toLocaleString()}
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        size="small"
+                        label={item.priority}
+                        color={statusColor(item.priority)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        size="small"
+                        label={formatLabel(item.status)}
+                        color={statusColor(item.status)}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                        size="small"
+                        onClick={() => openEditBreakdown(item)}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+
+                {filteredBreakdowns.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={7} align="center">
+                      <Typography color="text.secondary" sx={{ py: 4 }}>
+                        No breakdown records found.
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </Box>
+    </Paper>
+
+    {/* MAINTENANCE DIALOG */}
+
+    <Dialog
+      open={scheduleDialog}
+      onClose={() => !saving && setScheduleDialog(false)}
+      fullWidth
+      maxWidth="md"
+    >
+      <DialogTitle>
+        {editingSchedule ? "Edit Maintenance" : "Add Maintenance Schedule"}
+      </DialogTitle>
+
+      <DialogContent dividers>
+        <Stack spacing={2} sx={{ pt: 1 }}>
+          {formError && <Alert severity="error">{formError}</Alert>}
+
+          <FormControl fullWidth required>
+            <InputLabel id="maintenance-site-label">Site</InputLabel>
+            <Select
+              labelId="maintenance-site-label"
+              label="Site"
+              value={scheduleForm.site}
+              onChange={(event) =>
+                setScheduleForm((prev) => ({
+                  ...prev,
+                  site: event.target.value as number | "",
+                }))
+              }
+            >
+              {sites.map((site) => (
+                <MenuItem key={site.id} value={site.id}>
+                  {site.name} ({site.asset_code})
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <TextField
+            label="Maintenance Title"
+            required
+            fullWidth
+            value={scheduleForm.title}
+            onChange={(event) =>
+              setScheduleForm((prev) => ({
+                ...prev,
+                title: event.target.value,
+              }))
+            }
+          />
+
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+            <FormControl fullWidth>
+              <InputLabel id="maintenance-type-label">
+                Maintenance Type
+              </InputLabel>
+              <Select
+                labelId="maintenance-type-label"
+                label="Maintenance Type"
+                value={scheduleForm.maintenance_type}
+                onChange={(event) =>
+                  setScheduleForm((prev) => ({
+                    ...prev,
+                    maintenance_type: event.target.value as MaintenanceType,
+                  }))
+                }
+              >
+                <MenuItem value="PREVENTIVE">Preventive</MenuItem>
+                <MenuItem value="CORRECTIVE">Corrective</MenuItem>
+                <MenuItem value="INSPECTION">Inspection</MenuItem>
+                <MenuItem value="CLEANING">Panel Cleaning</MenuItem>
+                <MenuItem value="OTHER">Other</MenuItem>
+              </Select>
+            </FormControl>
 
             <TextField
-              label="Problem Description"
+              label="Scheduled Date"
+              type="date"
+              fullWidth
               required
-              multiline
-              minRows={3}
-              fullWidth
-              value={breakdownForm.problem_description}
+              value={scheduleForm.scheduled_date}
               onChange={(event) =>
-                setBreakdownForm((prev) => ({
+                setScheduleForm((prev) => ({
                   ...prev,
-                  problem_description: event.target.value,
+                  scheduled_date: event.target.value,
                 }))
               }
-            />
-
-            <TextField
-              label="Root Cause"
-              multiline
-              minRows={2}
-              fullWidth
-              value={breakdownForm.root_cause}
-              onChange={(event) =>
-                setBreakdownForm((prev) => ({
-                  ...prev,
-                  root_cause: event.target.value,
-                }))
-              }
-            />
-
-            <TextField
-              label="Corrective Action"
-              multiline
-              minRows={2}
-              fullWidth
-              value={breakdownForm.corrective_action}
-              onChange={(event) =>
-                setBreakdownForm((prev) => ({
-                  ...prev,
-                  corrective_action: event.target.value,
-                }))
-              }
-            />
-
-            <TextField
-              label="Remarks"
-              multiline
-              minRows={2}
-              fullWidth
-              value={breakdownForm.remarks}
-              onChange={(event) =>
-                setBreakdownForm((prev) => ({
-                  ...prev,
-                  remarks: event.target.value,
-                }))
-              }
+              slotProps={{ inputLabel: { shrink: true } }}
             />
           </Stack>
-        </DialogContent>
 
-        <DialogActions>
-          <Button
-            onClick={() => setBreakdownDialog(false)}
-            disabled={saving}
-          >
-            Cancel
-          </Button>
+          <FormControl fullWidth>
+            <InputLabel id="maintenance-status-label">Status</InputLabel>
+            <Select
+              labelId="maintenance-status-label"
+              label="Status"
+              value={scheduleForm.status}
+              onChange={(event) =>
+                setScheduleForm((prev) => ({
+                  ...prev,
+                  status: event.target.value as MaintenanceStatus,
+                }))
+              }
+            >
+              <MenuItem value="SCHEDULED">Scheduled</MenuItem>
+              <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
+              <MenuItem value="COMPLETED">Completed</MenuItem>
+              <MenuItem value="CANCELLED">Cancelled</MenuItem>
+            </Select>
+          </FormControl>
 
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => void saveBreakdown()}
-            disabled={saving}
-          >
-            {saving ? "Saving..." : "Save Breakdown"}
-          </Button>
-        </DialogActions>
-      </Dialog>
+          {scheduleForm.status === "COMPLETED" && (
+            <TextField
+              label="Completed Date"
+              type="date"
+              fullWidth
+              value={scheduleForm.completed_date}
+              onChange={(event) =>
+                setScheduleForm((prev) => ({
+                  ...prev,
+                  completed_date: event.target.value,
+                }))
+              }
+              slotProps={{ inputLabel: { shrink: true } }}
+            />
+          )}
 
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={4000}
+          <TextField
+            label="Description"
+            multiline
+            minRows={2}
+            fullWidth
+            value={scheduleForm.description}
+            onChange={(event) =>
+              setScheduleForm((prev) => ({
+                ...prev,
+                description: event.target.value,
+              }))
+            }
+          />
+
+          <TextField
+            label="Work Performed"
+            multiline
+            minRows={2}
+            fullWidth
+            value={scheduleForm.work_performed}
+            onChange={(event) =>
+              setScheduleForm((prev) => ({
+                ...prev,
+                work_performed: event.target.value,
+              }))
+            }
+          />
+
+          <TextField
+            label="Remarks"
+            multiline
+            minRows={2}
+            fullWidth
+            value={scheduleForm.remarks}
+            onChange={(event) =>
+              setScheduleForm((prev) => ({
+                ...prev,
+                remarks: event.target.value,
+              }))
+            }
+          />
+        </Stack>
+      </DialogContent>
+
+      <DialogActions>
+        <Button
+          onClick={() => setScheduleDialog(false)}
+          disabled={saving}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={() => void saveSchedule()}
+          disabled={saving}
+        >
+          {saving ? "Saving..." : "Save Maintenance"}
+        </Button>
+      </DialogActions>
+    </Dialog>
+
+    {/* BREAKDOWN DIALOG */}
+
+    <Dialog
+      open={breakdownDialog}
+      onClose={() => !saving && setBreakdownDialog(false)}
+      fullWidth
+      maxWidth="md"
+    >
+      <DialogTitle>
+        {editingBreakdown ? "Edit Breakdown" : "Report Breakdown"}
+      </DialogTitle>
+
+      <DialogContent dividers>
+        <Stack spacing={2} sx={{ pt: 1 }}>
+          {formError && <Alert severity="error">{formError}</Alert>}
+
+          <FormControl fullWidth required>
+            <InputLabel id="breakdown-site-label">Site</InputLabel>
+            <Select
+              labelId="breakdown-site-label"
+              label="Site"
+              value={breakdownForm.site}
+              onChange={(event) =>
+                setBreakdownForm((prev) => ({
+                  ...prev,
+                  site: event.target.value as number | "",
+                }))
+              }
+            >
+              {sites.map((site) => (
+                <MenuItem key={site.id} value={site.id}>
+                  {site.name} ({site.asset_code})
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <TextField
+            label="Breakdown Title"
+            required
+            fullWidth
+            value={breakdownForm.title}
+            onChange={(event) =>
+              setBreakdownForm((prev) => ({
+                ...prev,
+                title: event.target.value,
+              }))
+            }
+          />
+
+          <TextField
+            label="Equipment Name"
+            fullWidth
+            value={breakdownForm.equipment_name}
+            onChange={(event) =>
+              setBreakdownForm((prev) => ({
+                ...prev,
+                equipment_name: event.target.value,
+              }))
+            }
+          />
+
+          <TextField
+            label="Breakdown Date and Time"
+            type="datetime-local"
+            required
+            fullWidth
+            value={breakdownForm.breakdown_date}
+            onChange={(event) =>
+              setBreakdownForm((prev) => ({
+                ...prev,
+                breakdown_date: event.target.value,
+              }))
+            }
+            slotProps={{ inputLabel: { shrink: true } }}
+          />
+
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+            <FormControl fullWidth>
+              <InputLabel id="breakdown-priority-form-label">
+                Priority
+              </InputLabel>
+              <Select
+                labelId="breakdown-priority-form-label"
+                label="Priority"
+                value={breakdownForm.priority}
+                onChange={(event) =>
+                  setBreakdownForm((prev) => ({
+                    ...prev,
+                    priority: event.target.value as BreakdownPriority,
+                  }))
+                }
+              >
+                <MenuItem value="LOW">Low</MenuItem>
+                <MenuItem value="MEDIUM">Medium</MenuItem>
+                <MenuItem value="HIGH">High</MenuItem>
+                <MenuItem value="CRITICAL">Critical</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <InputLabel id="breakdown-status-form-label">
+                Status
+              </InputLabel>
+              <Select
+                labelId="breakdown-status-form-label"
+                label="Status"
+                value={breakdownForm.status}
+                onChange={(event) =>
+                  setBreakdownForm((prev) => ({
+                    ...prev,
+                    status: event.target.value as BreakdownStatus,
+                  }))
+                }
+              >
+                <MenuItem value="OPEN">Open</MenuItem>
+                <MenuItem value="INVESTIGATING">Investigating</MenuItem>
+                <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
+                <MenuItem value="RESOLVED">Resolved</MenuItem>
+                <MenuItem value="CLOSED">Closed</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>
+
+          <TextField
+            label="Problem Description"
+            required
+            multiline
+            minRows={3}
+            fullWidth
+            value={breakdownForm.problem_description}
+            onChange={(event) =>
+              setBreakdownForm((prev) => ({
+                ...prev,
+                problem_description: event.target.value,
+              }))
+            }
+          />
+
+          <TextField
+            label="Root Cause"
+            multiline
+            minRows={2}
+            fullWidth
+            value={breakdownForm.root_cause}
+            onChange={(event) =>
+              setBreakdownForm((prev) => ({
+                ...prev,
+                root_cause: event.target.value,
+              }))
+            }
+          />
+
+          <TextField
+            label="Corrective Action"
+            multiline
+            minRows={2}
+            fullWidth
+            value={breakdownForm.corrective_action}
+            onChange={(event) =>
+              setBreakdownForm((prev) => ({
+                ...prev,
+                corrective_action: event.target.value,
+              }))
+            }
+          />
+
+          <TextField
+            label="Remarks"
+            multiline
+            minRows={2}
+            fullWidth
+            value={breakdownForm.remarks}
+            onChange={(event) =>
+              setBreakdownForm((prev) => ({
+                ...prev,
+                remarks: event.target.value,
+              }))
+            }
+          />
+        </Stack>
+      </DialogContent>
+
+      <DialogActions>
+        <Button
+          onClick={() => setBreakdownDialog(false)}
+          disabled={saving}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => void saveBreakdown()}
+          disabled={saving}
+        >
+          {saving ? "Saving..." : "Save Breakdown"}
+        </Button>
+      </DialogActions>
+    </Dialog>
+
+    <Snackbar
+      open={snackbar.open}
+      autoHideDuration={4000}
+      onClose={() =>
+        setSnackbar((prev) => ({ ...prev, open: false }))
+      }
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+    >
+      <Alert
+        severity={snackbar.severity}
+        variant="filled"
         onClose={() =>
           setSnackbar((prev) => ({ ...prev, open: false }))
         }
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <Alert
-          severity={snackbar.severity}
-          variant="filled"
-          onClose={() =>
-            setSnackbar((prev) => ({ ...prev, open: false }))
-          }
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
-    </Box>
+        {snackbar.message}
+      </Alert>
+    </Snackbar>
+  </Box>
   );
 }

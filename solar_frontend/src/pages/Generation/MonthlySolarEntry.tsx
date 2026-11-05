@@ -705,10 +705,12 @@ const MonthlySolarEntry: React.FC = () => {
         }}
       >
         <Box>
-          <Typography variant="h5" fontWeight={700}>
-            Monthly Solar Entry
-          </Typography>
-
+        <Typography
+  variant="h5"
+  sx={{ fontWeight: 700 }}
+>
+  Monthly Solar Entry
+</Typography>
           <Typography
             variant="body2"
             color="text.secondary"
@@ -763,11 +765,10 @@ const MonthlySolarEntry: React.FC = () => {
         sx={{ borderRadius: 2, mb: 3 }}
       >
         <CardContent>
-          <Typography
-            variant="subtitle1"
-            fontWeight={700}
-            sx={{ mb: 2 }}
-          >
+         <Typography
+  variant="subtitle1"
+  sx={{ mb: 2, fontWeight: 700 }}
+>
             Site and Reporting Period
           </Typography>
 
@@ -885,8 +886,7 @@ const MonthlySolarEntry: React.FC = () => {
 
           <Typography
             variant="h5"
-            fontWeight={700}
-            sx={{ mt: 1 }}
+             sx={{ mt: 1, fontWeight: 700 }}
           >
             {formatNumber(expectedGeneration)} kWh
           </Typography>
@@ -910,11 +910,10 @@ const MonthlySolarEntry: React.FC = () => {
             Selected Reporting Period
           </Typography>
 
-          <Typography
-            variant="h5"
-            fontWeight={700}
-            sx={{ mt: 1 }}
-          >
+         <Typography
+  variant="h5"
+  sx={{ mt: 1, fontWeight: 700 }}
+>
             {MONTHS[selectedMonth - 1]} {selectedYear}
           </Typography>
 
@@ -951,7 +950,7 @@ const MonthlySolarEntry: React.FC = () => {
             <Box>
               <Typography
                 variant="h6"
-                fontWeight={700}
+               sx={{ mb: 2, fontWeight: 700 }}
               >
                 {editingRecord
                   ? "Edit Monthly Record"
@@ -998,8 +997,7 @@ const MonthlySolarEntry: React.FC = () => {
 
               <Typography
                 variant="subtitle1"
-                fontWeight={700}
-                sx={{ mb: 2 }}
+               sx={{ mb: 2, fontWeight: 700 }}
               >
                 1. Solar Generation
               </Typography>
@@ -1048,16 +1046,14 @@ const MonthlySolarEntry: React.FC = () => {
 
               <Typography
                 variant="subtitle1"
-                fontWeight={700}
-                sx={{ mt: 4, mb: 2 }}
+                sx={{ mb: 2, fontWeight: 700 }}
               >
                 2. Electricity Information
               </Typography>
 
               <Typography
                 variant="body2"
-                fontWeight={700}
-                sx={{ mb: 1 }}
+                sx={{ mb: 2, fontWeight: 700 }}
               >
                 Import Information
               </Typography>
@@ -1117,8 +1113,7 @@ const MonthlySolarEntry: React.FC = () => {
 
               <Typography
                 variant="body2"
-                fontWeight={700}
-                sx={{ mt: 3, mb: 1 }}
+                sx={{ mb: 2, fontWeight: 700 }}
               >
                 Export Information
               </Typography>
@@ -1171,11 +1166,10 @@ const MonthlySolarEntry: React.FC = () => {
                     Monthly Import Rate
                   </Typography>
 
-                  <Typography
-                    variant="h6"
-                    fontWeight={700}
-                    sx={{ mt: 0.5 }}
-                  >
+                 <Typography
+  variant="subtitle1"
+  sx={{ mt: 1, mb: 1, fontWeight: 600 }}
+>
                     {form.import_rate.trim() === ""
                       ? "—"
                       : formatMoney(form.import_rate)}
@@ -1196,8 +1190,7 @@ const MonthlySolarEntry: React.FC = () => {
 
               <Typography
                 variant="subtitle1"
-                fontWeight={700}
-                sx={{ mt: 4, mb: 2 }}
+                sx={{ mb: 2, fontWeight: 700 }}
               >
                 3. Electricity Bill
               </Typography>
@@ -1227,11 +1220,10 @@ const MonthlySolarEntry: React.FC = () => {
                     Bill Value
                   </Typography>
 
-                  <Typography
-                    variant="h5"
-                    fontWeight={700}
-                    sx={{ mt: 1 }}
-                  >
+                 <Typography
+  variant="h5"
+  sx={{ mt: 1, fontWeight: 600 }}
+>
                     {calculatedBillValue === null
                       ? "—"
                       : formatMoney(calculatedBillValue)}
@@ -1287,8 +1279,7 @@ const MonthlySolarEntry: React.FC = () => {
 
                   <Typography
                     variant="h4"
-                    fontWeight={700}
-                    sx={{ mt: 1 }}
+                    sx={{ mt: 1, fontWeight: 600 }}
                   >
                     {calculatedTotalBill === null
                       ? "—"
@@ -1306,11 +1297,10 @@ const MonthlySolarEntry: React.FC = () => {
 
               {/* 4. PERFORMANCE */}
 
-              <Typography
-                variant="subtitle1"
-                fontWeight={700}
-                sx={{ mt: 4, mb: 2 }}
-              >
+             <Typography
+  variant="subtitle1"
+  sx={{ mt: 1, mb: 1, fontWeight: 600 }}
+>
                 4. Generation Performance
               </Typography>
 
@@ -1326,10 +1316,9 @@ const MonthlySolarEntry: React.FC = () => {
                 </Typography>
 
                 <Typography
-                  variant="h5"
-                  fontWeight={700}
-                  sx={{ mt: 1 }}
-                >
+                        variant="h5"
+                        sx={{ mt: 1, fontWeight: 600 }}
+                      >
                   {performance === null
                     ? "—"
                     : `${formatNumber(performance)}%`}
@@ -1355,11 +1344,10 @@ const MonthlySolarEntry: React.FC = () => {
 
               {/* 5. REMARKS */}
 
-              <Typography
-                variant="subtitle1"
-                fontWeight={700}
-                sx={{ mt: 4, mb: 2 }}
-              >
+             <Typography
+                  variant="subtitle1"
+                  sx={{ mt: 1, mb: 1, fontWeight: 600 }}
+                >
                 5. Remarks
               </Typography>
 
@@ -1381,10 +1369,9 @@ const MonthlySolarEntry: React.FC = () => {
 
               <Alert severity="info" sx={{ mt: 3 }}>
                 <Typography
-                  variant="body2"
-                  fontWeight={700}
-                  sx={{ mb: 0.5 }}
-                >
+                    variant="body2"
+                    sx={{ mb: 1, fontWeight: 600 }}
+                  >
                   Calculation Formula
                 </Typography>
 
@@ -1465,10 +1452,10 @@ const MonthlySolarEntry: React.FC = () => {
             }}
           >
             <Box>
-              <Typography
-                variant="h6"
-                fontWeight={700}
-              >
+             <Typography
+  variant="body2"
+  sx={{ fontWeight: 600 }}
+>
                 Monthly Solar History
               </Typography>
 
@@ -1578,10 +1565,10 @@ const MonthlySolarEntry: React.FC = () => {
                         hover
                       >
                         <TableCell>
-                          <Typography
-                            variant="body2"
-                            fontWeight={600}
-                          >
+                         <Typography
+  variant="body2"
+  sx={{ fontWeight: 600 }}
+>
                             {MONTHS[record.month - 1]}
                           </Typography>
                         </TableCell>
@@ -1631,10 +1618,10 @@ const MonthlySolarEntry: React.FC = () => {
                         </TableCell>
 
                         <TableCell align="right">
-                          <Typography
-                            variant="body2"
-                            fontWeight={700}
-                          >
+                         <Typography
+  variant="body2"
+  sx={{ fontWeight: 700 }}
+>
                             {formatMoney(record.total_bill)}
                           </Typography>
                         </TableCell>

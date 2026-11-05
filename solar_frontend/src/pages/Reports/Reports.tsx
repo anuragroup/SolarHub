@@ -465,14 +465,14 @@ export default function Reports() {
       {/* PAGE HEADER */}
 
       <Stack
-        direction={{ xs: "column", sm: "row" }}
-        justifyContent="space-between"
-        alignItems={{ xs: "flex-start", sm: "center" }}
-        spacing={2}
-        sx={{ mb: 3 }}
-      >
+  direction="row"
+  sx={{
+    mt: 2,
+    justifyContent: "flex-end",
+  }}
+>
         <Box>
-          <Typography variant="h4" fontWeight={700}>
+          <Typography variant="h4" sx={{ fontWeight: 700 }}>
             Reports
           </Typography>
 
@@ -490,7 +490,7 @@ export default function Reports() {
 
       <Card variant="outlined" sx={{ mb: 3 }}>
         <CardContent>
-          <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600}}>
             Report Filters
           </Typography>
 
@@ -615,10 +615,12 @@ export default function Reports() {
           {/* GENERATE BUTTON */}
 
           <Stack
-            direction="row"
-            justifyContent="flex-end"
-            sx={{ mt: 2 }}
-          >
+  direction="row"
+  sx={{
+    mt: 2,
+    justifyContent: "flex-end",
+  }}
+>
             <Button
               variant="contained"
               startIcon={
@@ -648,7 +650,7 @@ export default function Reports() {
         </Alert>
       )}
 
-      <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+      <Typography variant="h6" sx={{ mb: 2, fontWeight: 600}}>
         Report Results
       </Typography>
 
@@ -691,7 +693,7 @@ export default function Reports() {
                     Total Generation
                   </Typography>
 
-                  <Typography variant="h5" fontWeight={700}>
+                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
                     {formatNumber(totalGeneration)} kWh
                   </Typography>
                 </CardContent>
@@ -705,7 +707,7 @@ export default function Reports() {
                     Expected Generation
                   </Typography>
 
-                  <Typography variant="h5" fontWeight={700}>
+                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
                     {formatNumber(totalExpected)} kWh
                   </Typography>
                 </CardContent>
@@ -719,7 +721,7 @@ export default function Reports() {
                     Overall Performance
                   </Typography>
 
-                  <Typography variant="h5" fontWeight={700}>
+                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
                     {overallPerformance === null
                       ? "N/A"
                       : `${formatNumber(overallPerformance)}%`}
@@ -731,7 +733,7 @@ export default function Reports() {
 
           <Card variant="outlined">
             <CardContent>
-              <Typography variant="h6" fontWeight={600}>
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Generation Records
               </Typography>
 
@@ -810,7 +812,7 @@ export default function Reports() {
       {reportRequested && category === "maintenance" && (
         <Card variant="outlined">
           <CardContent>
-            <Typography variant="h6" fontWeight={600}>
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
               Maintenance Report
             </Typography>
 
@@ -821,9 +823,9 @@ export default function Reports() {
             <Stack
               direction="row"
               spacing={1}
-              flexWrap="wrap"
+             
               useFlexGap
-              sx={{ mb: 2 }}
+              sx={{ mb: 2, flexWrap: 'wrap'}}
             >
               {Object.entries(maintenanceStatusCounts).map(
                 ([status, count]) => (
@@ -888,7 +890,7 @@ export default function Reports() {
       {reportRequested && category === "faults" && (
         <Card variant="outlined">
           <CardContent>
-            <Typography variant="h6" fontWeight={600}>
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
               Faults &amp; Breakdowns Report
             </Typography>
 
@@ -899,9 +901,9 @@ export default function Reports() {
             <Stack
               direction="row"
               spacing={1}
-              flexWrap="wrap"
+             
               useFlexGap
-              sx={{ mb: 2 }}
+              sx={{ mb: 2, flexWrap: 'wrap'}}
             >
               {Object.entries(breakdownStatusCounts).map(
                 ([status, count]) => (
@@ -965,7 +967,7 @@ export default function Reports() {
 
       {reportRequested && category === "site-performance" && (
         <>
-          <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+          <Typography variant="h6" sx={{ mb: 1, fontWeight: 600}}>
             Monthly Site Performance Summary
           </Typography>
 
@@ -990,7 +992,7 @@ export default function Reports() {
                         Total Actual Generation
                       </Typography>
 
-                      <Typography variant="h5" fontWeight={700}>
+                      <Typography variant="h5" sx={{ fontWeight: 700 }}>
                         {formatNumber(monthlyActual)} kWh
                       </Typography>
                     </CardContent>
@@ -1004,7 +1006,7 @@ export default function Reports() {
                         Total Expected Generation
                       </Typography>
 
-                      <Typography variant="h5" fontWeight={700}>
+                      <Typography variant="h5" sx={{ fontWeight: 700 }}>
                         {formatNumber(monthlyExpected)} kWh
                       </Typography>
                     </CardContent>
@@ -1018,7 +1020,7 @@ export default function Reports() {
                         Overall Performance
                       </Typography>
 
-                      <Typography variant="h5" fontWeight={700}>
+                      <Typography variant="h5" sx={{ fontWeight: 700 }}>
                         {monthlyPerformance === null
                           ? "N/A"
                           : `${formatNumber(monthlyPerformance)}%`}
@@ -1032,7 +1034,7 @@ export default function Reports() {
 
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="h6" fontWeight={600}>
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
                     Site-wise Monthly Generation
                   </Typography>
 

@@ -556,8 +556,7 @@ const GenerationMeter: React.FC = () => {
       </Typography>
     </Box>
   );
-
-  // ==========================================================
+    // ==========================================================
   // PAGE
   // ==========================================================
 
@@ -576,7 +575,10 @@ const GenerationMeter: React.FC = () => {
         }}
       >
         <Box>
-          <Typography variant="h5" fontWeight={700}>
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: 700 }}
+          >
             Generation &amp; Meter
           </Typography>
 
@@ -589,8 +591,14 @@ const GenerationMeter: React.FC = () => {
           </Typography>
         </Box>
 
+        {/* GENERATION BUTTONS */}
+
         {activeTab === 1 && (
-          <Stack direction="row" spacing={1} flexWrap="wrap">
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ flexWrap: "wrap" }}
+          >
             <Button
               variant="contained"
               startIcon={<AddIcon />}
@@ -610,8 +618,14 @@ const GenerationMeter: React.FC = () => {
           </Stack>
         )}
 
+        {/* METER READING BUTTONS */}
+
         {activeTab === 2 && (
-          <Stack direction="row" spacing={1} flexWrap="wrap">
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ flexWrap: "wrap" }}
+          >
             <Button
               variant="contained"
               startIcon={<AddIcon />}
@@ -664,7 +678,11 @@ const GenerationMeter: React.FC = () => {
 
         {activeTab === 0 && (
           <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
-            <Typography variant="h6" fontWeight={600} gutterBottom>
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{ fontWeight: 600 }}
+            >
               Generation Overview
             </Typography>
 
@@ -689,27 +707,43 @@ const GenerationMeter: React.FC = () => {
               }}
             >
               <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 2 }}>
-                <Stack direction="row" spacing={1.5} alignItems="center">
+                <Stack
+                  direction="row"
+                  spacing={1.5}
+                  sx={{ alignItems: "center" }}
+                >
                   <BoltOutlinedIcon color="primary" />
+
                   <Typography variant="body2" color="text.secondary">
                     Loaded Generation Records
                   </Typography>
                 </Stack>
 
-                <Typography variant="h4" fontWeight={700} sx={{ mt: 2 }}>
+                <Typography
+                  variant="h4"
+                  sx={{ mt: 1, fontWeight: 700 }}
+                >
                   {records.length}
                 </Typography>
               </Paper>
 
               <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 2 }}>
-                <Stack direction="row" spacing={1.5} alignItems="center">
+                <Stack
+                  direction="row"
+                  spacing={1.5}
+                  sx={{ alignItems: "center" }}
+                >
                   <ElectricMeterOutlinedIcon color="primary" />
+
                   <Typography variant="body2" color="text.secondary">
                     Loaded Meter Readings
                   </Typography>
                 </Stack>
 
-                <Typography variant="h4" fontWeight={700} sx={{ mt: 2 }}>
+                <Typography
+                  variant="h4"
+                  sx={{ mt: 1, fontWeight: 700 }}
+                >
                   {meterReadings.length}
                 </Typography>
               </Paper>
@@ -721,8 +755,11 @@ const GenerationMeter: React.FC = () => {
 
                 <Typography
                   variant="h4"
-                  fontWeight={700}
-                  sx={{ mt: 2, overflowWrap: "anywhere" }}
+                  sx={{
+                    mt: 2,
+                    overflowWrap: "anywhere",
+                    fontWeight: 700,
+                  }}
                 >
                   {formatNumber(totalGeneration)}
                 </Typography>
@@ -754,7 +791,10 @@ const GenerationMeter: React.FC = () => {
               }}
             >
               <Box>
-                <Typography variant="h6" fontWeight={600}>
+                <Typography
+                  variant="h6"
+                  sx={{ mb: 2, fontWeight: 700 }}
+                >
                   Daily Generation
                 </Typography>
 
@@ -779,7 +819,6 @@ const GenerationMeter: React.FC = () => {
 
             {generationLoading ? (
               renderLoading()
-              
             ) : (
               <TableContainer
                 component={Paper}
@@ -886,7 +925,10 @@ const GenerationMeter: React.FC = () => {
               }}
             >
               <Box>
-                <Typography variant="h6" fontWeight={600}>
+                <Typography
+                  variant="h6"
+                  sx={{ mt: 1, fontWeight: 700 }}
+                >
                   Meter Readings
                 </Typography>
 
@@ -983,12 +1025,15 @@ const GenerationMeter: React.FC = () => {
             )}
           </Box>
         )}
-
-        {/* MONTHLY SUMMARY */}
+                {/* MONTHLY SUMMARY */}
 
         {activeTab === 3 && (
           <Box sx={{ p: { xs: 2, sm: 3 } }}>
-            <Typography variant="h6" fontWeight={600} gutterBottom>
+            <Typography
+              variant="h6"
+              sx={{ mt: 1, fontWeight: 700 }}
+              gutterBottom
+            >
               Monthly Summary
             </Typography>
 
@@ -1004,7 +1049,11 @@ const GenerationMeter: React.FC = () => {
 
         {activeTab === 4 && (
           <Box sx={{ p: { xs: 2, sm: 3 } }}>
-            <Typography variant="h6" fontWeight={600} gutterBottom>
+            <Typography
+              variant="h6"
+              sx={{ mt: 1, fontWeight: 700 }}
+              gutterBottom
+            >
               API / Sync
             </Typography>
 
@@ -1035,7 +1084,10 @@ const GenerationMeter: React.FC = () => {
             <Typography variant="body2" color="text.secondary">
               Total Generation
             </Typography>
-            <Typography variant="h5" fontWeight={700} sx={{ mt: 1 }}>
+            <Typography
+              variant="h5"
+              sx={{ mt: 1, fontWeight: 700 }}
+            >
               {formatNumber(totalGeneration)} kWh
             </Typography>
           </Paper>
@@ -1044,7 +1096,10 @@ const GenerationMeter: React.FC = () => {
             <Typography variant="body2" color="text.secondary">
               Average Performance
             </Typography>
-            <Typography variant="h5" fontWeight={700} sx={{ mt: 1 }}>
+            <Typography
+              variant="h5"
+              sx={{ mb: 2, fontWeight: 700 }}
+            >
               {averagePerformance === null
                 ? "—"
                 : `${formatNumber(averagePerformance)}%`}
@@ -1055,7 +1110,10 @@ const GenerationMeter: React.FC = () => {
             <Typography variant="body2" color="text.secondary">
               Latest Generation Date
             </Typography>
-            <Typography variant="h5" fontWeight={700} sx={{ mt: 1 }}>
+            <Typography
+              variant="h5"
+              sx={{ mb: 2, fontWeight: 700 }}
+            >
               {latestGenerationDate}
             </Typography>
           </Paper>
@@ -1071,10 +1129,17 @@ const GenerationMeter: React.FC = () => {
         maxWidth="sm"
       >
         <DialogTitle>
-          <Typography variant="h6" fontWeight={700}>
+          <Typography
+            variant="h6"
+            sx={{ mb: 2, fontWeight: 700 }}
+          >
             Add Generation Record
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ mt: 0.5 }}
+          >
             Enter the solar generation details for one site and date.
           </Typography>
         </DialogTitle>
@@ -1087,7 +1152,11 @@ const GenerationMeter: React.FC = () => {
           )}
 
           <Stack spacing={2.5} sx={{ pt: 1 }}>
-            <FormControl fullWidth required disabled={sitesLoading || saving}>
+            <FormControl
+              fullWidth
+              required
+              disabled={sitesLoading || saving}
+            >
               <InputLabel id="generation-site-label">Site</InputLabel>
               <Select
                 labelId="generation-site-label"
@@ -1173,7 +1242,9 @@ const GenerationMeter: React.FC = () => {
             />
 
             <FormControl fullWidth disabled={saving}>
-              <InputLabel id="generation-source-label">Data Source</InputLabel>
+              <InputLabel id="generation-source-label">
+                Data Source
+              </InputLabel>
               <Select
                 labelId="generation-source-label"
                 label="Data Source"
@@ -1227,10 +1298,17 @@ const GenerationMeter: React.FC = () => {
         maxWidth="sm"
       >
         <DialogTitle>
-          <Typography variant="h6" fontWeight={700}>
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 700 }}
+          >
             Add Meter Reading
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ mt: 0.5 }}
+          >
             Enter the cumulative import/export reading for a site.
           </Typography>
         </DialogTitle>
