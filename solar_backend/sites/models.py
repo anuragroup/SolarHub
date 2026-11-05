@@ -139,7 +139,17 @@ class Site(models.Model):
         null=True,
     )
 
+    expected_monthly_generation = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
 
+    export_rate = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
 
     class Meta:
         ordering = ["name"]

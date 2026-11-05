@@ -8,6 +8,7 @@ import TopBar from "./TopBar";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import SiteMaster from "../../pages/Sites/SiteMaster";
 import GenerationMeter from "../../pages/Generation/GenerationMeter";
+import MonthlySolarEntry from "../../pages/Generation/MonthlySolarEntry";
 import MaintenancePage from "../../pages/Maintenance/MaintenancePage";
 import FaultsBreakdowns from "../../pages/Faults/FaultsBreakdowns";
 import Reports from "../../pages/Reports/Reports";
@@ -29,16 +30,25 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
     switch (activePage) {
       case "dashboard":
         return "Dashboard";
+
       case "sites":
         return "Site & Asset Master";
+
       case "generation":
         return "Generation & Meter";
+
+      case "monthly-solar-entry":
+        return "Monthly Solar Entry";
+
       case "maintenance":
         return "Maintenance Management";
+
       case "faults":
         return "Faults & Breakdowns";
+
       case "reports":
         return "Reports";
+
       default:
         return "Dashboard";
     }
@@ -48,16 +58,25 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
     switch (activePage) {
       case "dashboard":
         return <Dashboard onLogout={onLogout} />;
+
       case "sites":
         return <SiteMaster />;
+
       case "generation":
         return <GenerationMeter />;
+
+      case "monthly-solar-entry":
+        return <MonthlySolarEntry />;
+
       case "maintenance":
         return <MaintenancePage />;
+
       case "faults":
         return <FaultsBreakdowns />;
+
       case "reports":
         return <Reports />;
+
       default:
         return <Dashboard onLogout={onLogout} />;
     }

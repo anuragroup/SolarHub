@@ -21,8 +21,15 @@ import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 
+import ElectricMeterOutlinedIcon from "@mui/icons-material/ElectricMeterOutlined";
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+/* ============================================================
+   PROPS
+============================================================ */
 
 interface SidebarProps {
   open: boolean;
@@ -31,6 +38,10 @@ interface SidebarProps {
   onNavigate: (page: string) => void;
 }
 
+/* ============================================================
+   MENU ITEM TYPE
+============================================================ */
+
 interface MenuItem {
   label: string;
   key: string;
@@ -38,35 +49,61 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
+/* ============================================================
+   MENU ITEMS
+============================================================ */
+
 const menuItems: MenuItem[] = [
   {
     label: "Dashboard",
     key: "dashboard",
     icon: <DashboardOutlinedIcon />,
   },
+
   {
     label: "Site & Asset Master",
     key: "sites",
     icon: <SolarPowerOutlinedIcon />,
     children: [],
   },
+
+  // ==========================================================
+  // GENERATION & METER
+  // ==========================================================
+
   {
     label: "Generation & Meter",
-    key: "generation",
+    key: "generation-menu",
     icon: <BoltOutlinedIcon />,
-    children: [],
+
+    children: [
+      {
+        label: "Daily Generation & Meter",
+        key: "generation",
+        icon: <ElectricMeterOutlinedIcon />,
+      },
+
+      {
+        label: "Monthly Solar Entry",
+        key: "monthly-solar-entry",
+        icon: <CalendarMonthOutlinedIcon />,
+      },
+    ],
   },
+
   {
     label: "Maintenance",
     key: "maintenance",
     icon: <BuildOutlinedIcon />,
   },
+
   {
     label: "Faults & Breakdowns",
     key: "faults",
     icon: <ReportProblemOutlinedIcon />,
     children: [],
   },
+
   {
     label: "Reports",
     key: "reports",
@@ -75,16 +112,26 @@ const menuItems: MenuItem[] = [
   },
 ];
 
+/* ============================================================
+   CONSTANTS
+============================================================ */
+
 const drawerWidth = 260;
 const topBarHeight = 70;
 
 const SIDEBAR_BG = "#101A2E";
 const SIDEBAR_SURFACE = "#19263B";
 const SIDEBAR_BORDER = "#34445C";
+
 const ICON_ORANGE = "#FF9D00";
 const ACCENT_GREEN = "#00D6A0";
+
 const TEXT_WHITE = "#FFFFFF";
 const TEXT_MUTED = "#B6C2D2";
+
+/* ============================================================
+   SIDEBAR COMPONENT
+============================================================ */
 
 const Sidebar: React.FC<SidebarProps> = ({
   open,
@@ -93,11 +140,18 @@ const Sidebar: React.FC<SidebarProps> = ({
   onNavigate,
 }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const isMobile = useMediaQuery(
+    theme.breakpoints.down("md")
+  );
 
   const [expandedItems, setExpandedItems] = useState<
     Record<string, boolean>
   >({});
+
+  /* ==========================================================
+     PARENT MENU CLICK
+  ========================================================== */
 
   const handleParentClick = (item: MenuItem) => {
     if (item.children && item.children.length > 0) {
@@ -105,6 +159,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         ...previous,
         [item.key]: !previous[item.key],
       }));
+
       return;
     }
 
@@ -115,6 +170,10 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
+  /* ==========================================================
+     CHILD MENU CLICK
+  ========================================================== */
+
   const handleChildClick = (child: MenuItem) => {
     onNavigate(child.key);
 
@@ -122,6 +181,10 @@ const Sidebar: React.FC<SidebarProps> = ({
       onClose();
     }
   };
+
+  /* ==========================================================
+     RENDER MENU ITEMS
+  ========================================================== */
 
   const renderMenuItems = (
     items: MenuItem[],
@@ -131,7 +194,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       const hasChildren =
         !!item.children && item.children.length > 0;
 
-      const isExpanded = expandedItems[item.key] === true;
+      const isExpanded =
+        expandedItems[item.key] === true;
 
       const isActive =
         activePage === item.key ||
@@ -141,9 +205,16 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       return (
         <React.Fragment key={item.key}>
+
+          {/* ==================================================
+              PARENT MENU
+          ================================================== */}
+
           <ListItemButton
             onClick={() => handleParentClick(item)}
-            selected={!hasChildren && activePage === item.key}
+            selected={
+              !hasChildren && activePage === item.key
+            }
             sx={{
               position: "relative",
               borderRadius: "9px",
@@ -187,10 +258,12 @@ const Sidebar: React.FC<SidebarProps> = ({
               },
             }}
           >
+
             <ListItemIcon
               sx={{
                 minWidth: 42,
                 color: ICON_ORANGE,
+
                 "& .MuiSvgIcon-root": {
                   fontSize: 23,
                 },
@@ -215,14 +288,25 @@ const Sidebar: React.FC<SidebarProps> = ({
             {hasChildren &&
               (isExpanded ? (
                 <ExpandLessIcon
-                  sx={{ fontSize: 20, color: ACCENT_GREEN }}
+                  sx={{
+                    fontSize: 20,
+                    color: ACCENT_GREEN,
+                  }}
                 />
               ) : (
                 <ExpandMoreIcon
-                  sx={{ fontSize: 20, color: TEXT_MUTED }}
+                  sx={{
+                    fontSize: 20,
+                    color: TEXT_MUTED,
+                  }}
                 />
               ))}
+
           </ListItemButton>
+
+          {/* ==================================================
+              CHILD MENU
+          ================================================== */}
 
           {hasChildren && (
             <Collapse
@@ -231,12 +315,15 @@ const Sidebar: React.FC<SidebarProps> = ({
               unmountOnExit
             >
               <List component="div" disablePadding>
+
                 {item.children?.map((child) => (
+
                   <ListItemButton
                     key={child.key}
                     selected={activePage === child.key}
                     onClick={() => handleChildClick(child)}
                     sx={{
+                      position: "relative",
                       borderRadius: "8px",
                       mb: 0.5,
                       minHeight: 42,
@@ -246,8 +333,25 @@ const Sidebar: React.FC<SidebarProps> = ({
                       "&.Mui-selected": {
                         backgroundColor: SIDEBAR_SURFACE,
                         color: TEXT_WHITE,
+
+                        "&::before": {
+                          content: '""',
+                          position: "absolute",
+                          left: 0,
+                          top: 7,
+                          bottom: 7,
+                          width: 3,
+                          borderRadius: "0 4px 4px 0",
+                          backgroundColor: ACCENT_GREEN,
+                        },
+
                         "& .MuiListItemIcon-root": {
                           color: ICON_ORANGE,
+                        },
+
+                        "& .MuiListItemText-primary": {
+                          color: TEXT_WHITE,
+                          fontWeight: 600,
                         },
                       },
 
@@ -260,10 +364,15 @@ const Sidebar: React.FC<SidebarProps> = ({
                       },
                     }}
                   >
+
                     <ListItemIcon
                       sx={{
                         minWidth: 34,
                         color: ICON_ORANGE,
+
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 20,
+                        },
                       }}
                     >
                       {child.icon}
@@ -276,21 +385,31 @@ const Sidebar: React.FC<SidebarProps> = ({
                           sx: {
                             fontSize: 13,
                             fontWeight:
-                              activePage === child.key ? 600 : 400,
+                              activePage === child.key
+                                ? 600
+                                : 400,
                             color: TEXT_WHITE,
                           },
                         },
                       }}
                     />
+
                   </ListItemButton>
+
                 ))}
+
               </List>
             </Collapse>
           )}
+
         </React.Fragment>
       );
     });
   };
+
+  /* ==========================================================
+     DRAWER CONTENT
+  ========================================================== */
 
   const drawerContent = (
     <Box
@@ -303,6 +422,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       }}
     >
 
+      {/* MENU */}
 
       <Box
         sx={{
@@ -326,10 +446,14 @@ const Sidebar: React.FC<SidebarProps> = ({
           },
         }}
       >
+
         <List sx={{ px: 1.5, py: 0 }}>
           {renderMenuItems(menuItems)}
         </List>
+
       </Box>
+
+      {/* SIDEBAR FOOTER */}
 
       <Box
         sx={{
@@ -338,6 +462,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           borderTop: `1px solid ${SIDEBAR_BORDER}`,
         }}
       >
+
         <Typography
           sx={{
             fontSize: 10,
@@ -347,6 +472,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         >
           POWERING SOLAR OPERATIONS
         </Typography>
+
         <Typography
           sx={{
             fontSize: 11,
@@ -357,16 +483,24 @@ const Sidebar: React.FC<SidebarProps> = ({
         >
           Efficient · Reliable · Sustainable
         </Typography>
+
       </Box>
+
     </Box>
   );
+
+  /* ==========================================================
+     DRAWER
+  ========================================================== */
 
   return (
     <Drawer
       variant={isMobile ? "temporary" : "permanent"}
       open={open}
       onClose={onClose}
-      ModalProps={{ keepMounted: true }}
+      ModalProps={{
+        keepMounted: true,
+      }}
       sx={{
         width: drawerWidth,
         flexShrink: 0,
@@ -374,14 +508,17 @@ const Sidebar: React.FC<SidebarProps> = ({
         "& .MuiDrawer-paper": {
           width: drawerWidth,
           boxSizing: "border-box",
+
           top: {
             xs: 0,
             md: `${topBarHeight}px`,
           },
+
           height: {
             xs: "100vh",
             md: `calc(100vh - ${topBarHeight}px)`,
           },
+
           borderRight: `1px solid ${SIDEBAR_BORDER}`,
           backgroundColor: SIDEBAR_BG,
           color: TEXT_WHITE,

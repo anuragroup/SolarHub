@@ -779,6 +779,7 @@ const GenerationMeter: React.FC = () => {
 
             {generationLoading ? (
               renderLoading()
+              
             ) : (
               <TableContainer
                 component={Paper}

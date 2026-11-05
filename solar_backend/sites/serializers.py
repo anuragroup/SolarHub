@@ -1,11 +1,12 @@
 from rest_framework import serializers
-
 from .models import Site
 
 
 class SiteSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Site
+
         fields = [
             "id",
             "name",
@@ -14,6 +15,11 @@ class SiteSerializer(serializers.ModelSerializer):
             "capacity_kwp",
             "project_investment",
             "expected_daily_generation_kwh",
+
+            # Solar configuration
+            "expected_monthly_generation",
+            "export_rate",
+
             "monitoring_portal",
             "plant_id",
             "inverter_model",
@@ -26,6 +32,7 @@ class SiteSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
         read_only_fields = [
             "id",
             "created_at",
