@@ -36,7 +36,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import SaveIcon from "@mui/icons-material/Save";
 import EditIcon from "@mui/icons-material/Edit";
 
-import api from "../../api/axios";
+import api from "../../api/axios_local";
 
 /* ============================================================
    TYPES

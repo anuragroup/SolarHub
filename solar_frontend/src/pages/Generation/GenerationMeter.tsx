@@ -35,7 +35,7 @@ import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
 import ElectricMeterOutlinedIcon from "@mui/icons-material/ElectricMeterOutlined";
 import AddIcon from "@mui/icons-material/Add";
 
-import api from "../../api/axios";
+import api from "../../api/axios_local";
 
 import {
   getGenerationRecords,

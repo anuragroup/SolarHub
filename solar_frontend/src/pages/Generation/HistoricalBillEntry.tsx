@@ -32,7 +32,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
-import api from "../../api/axios";
+import api from "../../api/axios_local";
 import { getSites } from "../../api/sites";
 
 // ======================================================

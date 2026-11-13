@@ -54,7 +54,7 @@ import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 
-import api from "../../api/axios";
+import api from "../../api/axios_local";
 
 import {
 

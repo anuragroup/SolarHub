@@ -33,7 +33,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 
-import api from "../../api/axios";
+import api from "../../api/axios_local";
 
 /* ============================================================
    TYPES

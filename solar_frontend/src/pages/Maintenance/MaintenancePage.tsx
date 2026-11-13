@@ -35,7 +35,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import BuildIcon from "@mui/icons-material/Build";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
-import api from "../../api/axios";
+import api from "../../api/axios_local";
 
 import {
   getMaintenanceSchedules,
