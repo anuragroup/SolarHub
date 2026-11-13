@@ -1,4 +1,4 @@
-import api from "./axios_local";
+import api from "./axios";
 
 // ==========================================================
 // TYPES

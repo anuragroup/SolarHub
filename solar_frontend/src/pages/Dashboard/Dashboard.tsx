@@ -19,7 +19,7 @@ import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalance
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 
-import api from "../../api/axios_local";
+import api from "../../api/axios";
 
 import { getSites } from "../../api/sites";
 import { getGenerationRecords } from "../../api/generation";
