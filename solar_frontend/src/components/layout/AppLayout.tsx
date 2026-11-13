@@ -9,6 +9,8 @@ import Dashboard from "../../pages/Dashboard/Dashboard";
 import SiteMaster from "../../pages/Sites/SiteMaster";
 import GenerationMeter from "../../pages/Generation/GenerationMeter";
 import MonthlySolarEntry from "../../pages/Generation/MonthlySolarEntry";
+import HistoricalBillEntry from "../../pages/Generation/HistoricalBillEntry";
+
 import MaintenancePage from "../../pages/Maintenance/MaintenancePage";
 import FaultsBreakdowns from "../../pages/Faults/FaultsBreakdowns";
 import Reports from "../../pages/Reports/Reports";
@@ -26,6 +28,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
     setSidebarOpen(false);
   };
 
+  // ==========================================================
+  // PAGE TITLE
+  // ==========================================================
+
   const getPageTitle = () => {
     switch (activePage) {
       case "dashboard":
@@ -39,6 +45,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
 
       case "monthly-solar-entry":
         return "Monthly Solar Entry";
+
+      case "historical-bill-entry":
+        return "Historical Bill Entry";
 
       case "maintenance":
         return "Maintenance Management";
@@ -54,6 +63,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
     }
   };
 
+  // ==========================================================
+  // RENDER ACTIVE PAGE
+  // ==========================================================
+
   const renderActivePage = () => {
     switch (activePage) {
       case "dashboard":
@@ -68,6 +81,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
       case "monthly-solar-entry":
         return <MonthlySolarEntry />;
 
+      case "historical-bill-entry":
+        return <HistoricalBillEntry />;
+
       case "maintenance":
         return <MaintenancePage />;
 
@@ -81,6 +97,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
         return <Dashboard />;
     }
   };
+
+  // ==========================================================
+  // MAIN LAYOUT
+  // ==========================================================
 
   return (
     <Box

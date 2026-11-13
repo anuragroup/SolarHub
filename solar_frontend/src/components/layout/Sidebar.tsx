@@ -23,6 +23,7 @@ import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 
 import ElectricMeterOutlinedIcon from "@mui/icons-material/ElectricMeterOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -87,6 +88,12 @@ const menuItems: MenuItem[] = [
         label: "Monthly Solar Entry",
         key: "monthly-solar-entry",
         icon: <CalendarMonthOutlinedIcon />,
+      },
+
+      {
+        label: "Historical Bill Entry",
+        key: "historical-bill-entry",
+        icon: <HistoryOutlinedIcon />,
       },
     ],
   },
