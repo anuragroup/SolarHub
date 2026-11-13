@@ -394,14 +394,19 @@ export default function HistoricalBillEntry() {
       {/* PAGE HEADER */}
 
       <Stack
-        direction={{ xs: "column", sm: "row" }}
-        justifyContent="space-between"
-        alignItems={{ xs: "stretch", sm: "center" }}
-        spacing={2}
-        sx={{ mb: 3 }}
-      >
+  direction={{ xs: "column", sm: "row" }}
+  spacing={2}
+  sx={{
+    mb: 3,
+    justifyContent: "space-between",
+    alignItems: {
+      xs: "stretch",
+      sm: "center",
+    },
+  }}
+>
         <Box>
-          <Typography variant="h5" fontWeight={700}>
+          <Typography variant="h5" sx={{ fontWeight: 700 }}>
             Historical Bill Value Entry
           </Typography>
 
@@ -457,16 +462,16 @@ export default function HistoricalBillEntry() {
       <Card sx={{ mb: 3 }}>
         <CardContent>
           <Stack
-            direction={{ xs: "column", sm: "row" }}
-            justifyContent="space-between"
-            spacing={2}
-          >
+  direction={{ xs: "column", sm: "row" }}
+  spacing={2}
+  sx={{ justifyContent: "space-between" }}
+>
             <Box>
               <Typography color="text.secondary" variant="body2">
                 Total Historical Bill Value
               </Typography>
 
-              <Typography variant="h4" fontWeight={700} sx={{ mt: 1 }}>
+              <Typography variant="h4" sx={{ mt: 1, fontWeight: 700 }}>
                 Rs. {formatMoney(totalBillValue)}
               </Typography>
 
@@ -480,7 +485,7 @@ export default function HistoricalBillEntry() {
                 Historical Entries
               </Typography>
 
-              <Typography variant="h4" fontWeight={700} sx={{ mt: 1 }}>
+              <Typography variant="h4" sx={{ mt: 1, fontWeight: 700 }}>
                 {records.length}
               </Typography>
             </Box>
@@ -492,7 +497,7 @@ export default function HistoricalBillEntry() {
 
       <Card sx={{ mb: 3 }}>
         <CardContent>
-          <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
             Filter Historical Records
           </Typography>
 
@@ -547,7 +552,7 @@ export default function HistoricalBillEntry() {
 
       <Card>
         <CardContent>
-          <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
             Historical Bill Records
           </Typography>
 
@@ -613,7 +618,7 @@ export default function HistoricalBillEntry() {
                           <TableCell>{record.year}</TableCell>
 
                           <TableCell align="right">
-                            <Typography fontWeight={600}>
+                            <Typography sx={{ fontWeight: 600 }}>
                               {formatMoney(record.bill_value)}
                             </Typography>
                           </TableCell>
