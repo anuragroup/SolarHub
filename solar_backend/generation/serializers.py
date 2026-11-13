@@ -1,12 +1,14 @@
 
 from decimal import Decimal
 
+
 from rest_framework import serializers
 
 from .models import (
     GenerationRecord,
     MeterReading,
     MonthlySolarRecord,
+    HistoricalBillEntry,
 )
 
 
@@ -348,3 +350,62 @@ class MonthlySolarRecordSerializer(serializers.ModelSerializer):
         validated_data.pop("expected_generation_kwh", None)
 
         return super().update(instance, validated_data)
+
+
+#########################################################################
+
+class HistoricalBillEntrySerializer(serializers.ModelSerializer):
+
+    site_name = serializers.CharField(
+        source="site.name",
+        read_only=True
+    )
+
+    entered_by_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = HistoricalBillEntry
+        fields = [
+            "id",
+            "site",
+            "site_name",
+            "year",
+            "bill_value",
+            "remarks",
+            "entered_by",
+            "entered_by_name",
+            "created_at",
+            "updated_at",
+        ]
+
+        read_only_fields = [
+            "id",
+            "entered_by",
+            "created_at",
+            "updated_at",
+        ]
+
+    def get_entered_by_name(self, obj):
+        if obj.entered_by:
+            return obj.entered_by.get_full_name() or obj.entered_by.username
+        return None
+
+    def validate(self, attrs):
+        site = attrs.get("site", getattr(self.instance, "site", None))
+        year = attrs.get("year", getattr(self.instance, "year", None))
+
+        if site and year:
+            existing = HistoricalBillEntry.objects.filter(
+                site=site,
+                year=year
+            )
+
+            if self.instance:
+                existing = existing.exclude(pk=self.instance.pk)
+
+            if existing.exists():
+                raise serializers.ValidationError({
+                    "year": "A historical bill entry already exists for this site and year."
+                })
+
+        return attrs

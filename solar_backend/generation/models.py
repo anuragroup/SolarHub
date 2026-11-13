@@ -489,3 +489,57 @@ class MonthlySolarRecord(models.Model):
             f"{self.site.name} - "
             f"{self.year}/{self.month:02d}"
         )
+
+
+#######################################################
+
+class HistoricalBillEntry(models.Model):
+
+    site = models.ForeignKey(
+        Site,
+        on_delete=models.PROTECT,
+        related_name="historical_bill_entries"
+    )
+
+    year = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(2000),
+            MaxValueValidator(2100),
+        ]
+    )
+
+    bill_value = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        validators=[MinValueValidator(0)],
+        help_text="Historical annual bill value in LKR"
+    )
+
+    remarks = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    entered_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="historical_bill_entries"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["site", "-year"]
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["site", "year"],
+                name="unique_historical_bill_per_site_year"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.site.name} - {self.year} - Rs. {self.bill_value:,.2f}"

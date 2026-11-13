@@ -4,6 +4,7 @@ from .views import (
     GenerationRecordViewSet,
     MeterReadingViewSet,
     MonthlySolarRecordViewSet,
+    HistoricalBillEntryViewSet,
 )
 
 
@@ -27,5 +28,12 @@ router.register(
     MonthlySolarRecordViewSet,
     basename="monthly-solar-record",
 )
+
+router.register(
+    r"historical-bill-entries",
+    HistoricalBillEntryViewSet,
+    basename="historical-bill-entry"
+)
+
 
 urlpatterns = router.urls
