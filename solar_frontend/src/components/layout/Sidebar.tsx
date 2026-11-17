@@ -25,12 +25,15 @@ import ElectricMeterOutlinedIcon from "@mui/icons-material/ElectricMeterOutlined
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 
+import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
+import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
+
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-/* ============================================================
-   PROPS
-============================================================ */
+// ============================================================
+// PROPS
+// ============================================================
 
 interface SidebarProps {
   open: boolean;
@@ -39,9 +42,9 @@ interface SidebarProps {
   onNavigate: (page: string) => void;
 }
 
-/* ============================================================
-   MENU ITEM TYPE
-============================================================ */
+// ============================================================
+// MENU ITEM TYPE
+// ============================================================
 
 interface MenuItem {
   label: string;
@@ -50,9 +53,9 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
-/* ============================================================
-   MENU ITEMS
-============================================================ */
+// ============================================================
+// MENU ITEMS
+// ============================================================
 
 const menuItems: MenuItem[] = [
   {
@@ -98,11 +101,37 @@ const menuItems: MenuItem[] = [
     ],
   },
 
+  // ==========================================================
+  // FINANCE
+  // ==========================================================
+
+  {
+    label: "Finance",
+    key: "finance-menu",
+    icon: <AccountBalanceOutlinedIcon />,
+
+    children: [
+      {
+        label: "Monthly Electricity Income",
+        key: "monthly-electricity-income",
+        icon: <PaymentsOutlinedIcon />,
+      },
+    ],
+  },
+
+  // ==========================================================
+  // MAINTENANCE
+  // ==========================================================
+
   {
     label: "Maintenance",
     key: "maintenance",
     icon: <BuildOutlinedIcon />,
   },
+
+  // ==========================================================
+  // FAULTS & BREAKDOWNS
+  // ==========================================================
 
   {
     label: "Faults & Breakdowns",
@@ -110,6 +139,10 @@ const menuItems: MenuItem[] = [
     icon: <ReportProblemOutlinedIcon />,
     children: [],
   },
+
+  // ==========================================================
+  // REPORTS
+  // ==========================================================
 
   {
     label: "Reports",
@@ -119,9 +152,9 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-/* ============================================================
-   CONSTANTS
-============================================================ */
+// ============================================================
+// CONSTANTS
+// ============================================================
 
 const drawerWidth = 260;
 const topBarHeight = 70;
@@ -136,9 +169,9 @@ const ACCENT_GREEN = "#00D6A0";
 const TEXT_WHITE = "#FFFFFF";
 const TEXT_MUTED = "#B6C2D2";
 
-/* ============================================================
-   SIDEBAR COMPONENT
-============================================================ */
+// ============================================================
+// SIDEBAR COMPONENT
+// ============================================================
 
 const Sidebar: React.FC<SidebarProps> = ({
   open,
@@ -156,9 +189,28 @@ const Sidebar: React.FC<SidebarProps> = ({
     Record<string, boolean>
   >({});
 
-  /* ==========================================================
-     PARENT MENU CLICK
-  ========================================================== */
+  // ==========================================================
+  // Automatically expand the parent of the active page
+  // ==========================================================
+
+  React.useEffect(() => {
+    const activeParent = menuItems.find((item) =>
+      item.children?.some(
+        (child) => child.key === activePage
+      )
+    );
+
+    if (activeParent) {
+      setExpandedItems((previous) => ({
+        ...previous,
+        [activeParent.key]: true,
+      }));
+    }
+  }, [activePage]);
+
+  // ==========================================================
+  // PARENT MENU CLICK
+  // ==========================================================
 
   const handleParentClick = (item: MenuItem) => {
     if (item.children && item.children.length > 0) {
@@ -177,9 +229,9 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
-  /* ==========================================================
-     CHILD MENU CLICK
-  ========================================================== */
+  // ==========================================================
+  // CHILD MENU CLICK
+  // ==========================================================
 
   const handleChildClick = (child: MenuItem) => {
     onNavigate(child.key);
@@ -189,9 +241,9 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
-  /* ==========================================================
-     RENDER MENU ITEMS
-  ========================================================== */
+  // ==========================================================
+  // RENDER MENU ITEMS
+  // ==========================================================
 
   const renderMenuItems = (
     items: MenuItem[],
@@ -212,10 +264,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       return (
         <React.Fragment key={item.key}>
-
-          {/* ==================================================
-              PARENT MENU
-          ================================================== */}
+          {/* PARENT MENU */}
 
           <ListItemButton
             onClick={() => handleParentClick(item)}
@@ -265,7 +314,6 @@ const Sidebar: React.FC<SidebarProps> = ({
               },
             }}
           >
-
             <ListItemIcon
               sx={{
                 minWidth: 42,
@@ -308,12 +356,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                   }}
                 />
               ))}
-
           </ListItemButton>
 
-          {/* ==================================================
-              CHILD MENU
-          ================================================== */}
+          {/* CHILD MENU */}
 
           {hasChildren && (
             <Collapse
@@ -322,9 +367,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               unmountOnExit
             >
               <List component="div" disablePadding>
-
                 {item.children?.map((child) => (
-
                   <ListItemButton
                     key={child.key}
                     selected={activePage === child.key}
@@ -371,7 +414,6 @@ const Sidebar: React.FC<SidebarProps> = ({
                       },
                     }}
                   >
-
                     <ListItemIcon
                       sx={{
                         minWidth: 34,
@@ -400,23 +442,19 @@ const Sidebar: React.FC<SidebarProps> = ({
                         },
                       }}
                     />
-
                   </ListItemButton>
-
                 ))}
-
               </List>
             </Collapse>
           )}
-
         </React.Fragment>
       );
     });
   };
 
-  /* ==========================================================
-     DRAWER CONTENT
-  ========================================================== */
+  // ==========================================================
+  // DRAWER CONTENT
+  // ==========================================================
 
   const drawerContent = (
     <Box
@@ -428,7 +466,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         color: TEXT_WHITE,
       }}
     >
-
       {/* MENU */}
 
       <Box
@@ -453,11 +490,9 @@ const Sidebar: React.FC<SidebarProps> = ({
           },
         }}
       >
-
         <List sx={{ px: 1.5, py: 0 }}>
           {renderMenuItems(menuItems)}
         </List>
-
       </Box>
 
       {/* SIDEBAR FOOTER */}
@@ -469,7 +504,6 @@ const Sidebar: React.FC<SidebarProps> = ({
           borderTop: `1px solid ${SIDEBAR_BORDER}`,
         }}
       >
-
         <Typography
           sx={{
             fontSize: 10,
@@ -490,15 +524,13 @@ const Sidebar: React.FC<SidebarProps> = ({
         >
           Efficient · Reliable · Sustainable
         </Typography>
-
       </Box>
-
     </Box>
   );
 
-  /* ==========================================================
-     DRAWER
-  ========================================================== */
+  // ==========================================================
+  // DRAWER
+  // ==========================================================
 
   return (
     <Drawer

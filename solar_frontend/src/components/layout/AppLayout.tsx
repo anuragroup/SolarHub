@@ -7,21 +7,35 @@ import TopBar from "./TopBar";
 
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import SiteMaster from "../../pages/Sites/SiteMaster";
+
 import GenerationMeter from "../../pages/Generation/GenerationMeter";
 import MonthlySolarEntry from "../../pages/Generation/MonthlySolarEntry";
 import HistoricalBillEntry from "../../pages/Generation/HistoricalBillEntry";
+import MonthlyElectricityIncome from "../../pages/Generation/MonthlyElectricityIncome";
 
 import MaintenancePage from "../../pages/Maintenance/MaintenancePage";
 import FaultsBreakdowns from "../../pages/Faults/FaultsBreakdowns";
 import Reports from "../../pages/Reports/Reports";
 
+// ==========================================================
+// PROPS
+// ==========================================================
+
 interface AppLayoutProps {
   onLogout: () => void;
 }
 
+// ==========================================================
+// APP LAYOUT
+// ==========================================================
+
 const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activePage, setActivePage] = useState("dashboard");
+
+  // ==========================================================
+  // NAVIGATION
+  // ==========================================================
 
   const handleNavigate = (page: string) => {
     setActivePage(page);
@@ -48,6 +62,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
 
       case "historical-bill-entry":
         return "Historical Bill Entry";
+
+      // FINANCE
+      case "monthly-electricity-income":
+        return "Monthly Electricity Income";
 
       case "maintenance":
         return "Maintenance Management";
@@ -84,6 +102,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
       case "historical-bill-entry":
         return <HistoricalBillEntry />;
 
+      // FINANCE
+      case "monthly-electricity-income":
+        return <MonthlyElectricityIncome />;
+
       case "maintenance":
         return <MaintenancePage />;
 
@@ -110,6 +132,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
         backgroundColor: "background.default",
       }}
     >
+      {/* TOP BAR */}
+
       <TopBar
         onMenuClick={() => setSidebarOpen(true)}
         pageTitle={getPageTitle()}
@@ -117,12 +141,16 @@ const AppLayout: React.FC<AppLayoutProps> = ({ onLogout }) => {
         onLogout={onLogout}
       />
 
+      {/* SIDEBAR */}
+
       <Sidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         activePage={activePage}
         onNavigate={handleNavigate}
       />
+
+      {/* MAIN CONTENT */}
 
       <Box
         component="main"
