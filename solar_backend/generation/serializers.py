@@ -9,6 +9,7 @@ from .models import (
     MeterReading,
     MonthlySolarRecord,
     HistoricalBillEntry,
+    MonthlyElectricityIncome,
 )
 
 
@@ -406,6 +407,83 @@ class HistoricalBillEntrySerializer(serializers.ModelSerializer):
             if existing.exists():
                 raise serializers.ValidationError({
                     "year": "A historical bill entry already exists for this site and year."
+                })
+
+        return attrs
+
+
+###########################################################
+
+from rest_framework import serializers
+
+
+
+class MonthlyElectricityIncomeSerializer(serializers.ModelSerializer):
+
+    site_name = serializers.CharField(
+        source="site.name",
+        read_only=True
+    )
+
+    entered_by_name = serializers.CharField(
+        source="entered_by.username",
+        read_only=True
+    )
+
+    class Meta:
+        model = MonthlyElectricityIncome
+
+        fields = [
+            "id",
+            "site",
+            "site_name",
+            "year",
+            "month",
+            "income_amount",
+            "remarks",
+            "entered_by",
+            "entered_by_name",
+            "created_at",
+            "updated_at",
+        ]
+
+        read_only_fields = [
+            "id",
+            "entered_by",
+            "entered_by_name",
+            "created_at",
+            "updated_at",
+        ]
+
+    def validate(self, attrs):
+        site = attrs.get(
+            "site",
+            getattr(self.instance, "site", None)
+        )
+
+        year = attrs.get(
+            "year",
+            getattr(self.instance, "year", None)
+        )
+
+        month = attrs.get(
+            "month",
+            getattr(self.instance, "month", None)
+        )
+
+        if site and year and month:
+            existing = MonthlyElectricityIncome.objects.filter(
+                site=site,
+                year=year,
+                month=month
+            )
+
+            if self.instance:
+                existing = existing.exclude(pk=self.instance.pk)
+
+            if existing.exists():
+                raise serializers.ValidationError({
+                    "month": "Income for this site and month already exists."
                 })
 
         return attrs

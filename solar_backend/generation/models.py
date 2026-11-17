@@ -543,3 +543,66 @@ class HistoricalBillEntry(models.Model):
 
     def __str__(self):
         return f"{self.site.name} - {self.year} - Rs. {self.bill_value:,.2f}"
+
+
+#######################################################################################
+
+
+class MonthlyElectricityIncome(models.Model):
+
+    site = models.ForeignKey(
+        Site,
+        on_delete=models.PROTECT,
+        related_name="monthly_electricity_income"
+    )
+
+    year = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(2000),
+            MaxValueValidator(2100)
+        ]
+    )
+
+    month = models.PositiveSmallIntegerField(
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(12)
+        ]
+    )
+
+    income_amount = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        validators=[MinValueValidator(0)],
+        help_text="Actual monthly income received from Electricity Board (LKR)"
+    )
+
+    remarks = models.TextField(blank=True)
+
+    entered_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="monthly_electricity_incomes"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-year", "-month", "site__name"]
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["site", "year", "month"],
+                name="unique_monthly_electricity_income"
+            )
+        ]
+
+    def __str__(self):
+        return (
+            f"{self.site.name} - "
+            f"{self.year}/{self.month:02d} - "
+            f"Rs. {self.income_amount:,.2f}"
+        )

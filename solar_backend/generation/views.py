@@ -7,6 +7,7 @@ from .models import (
     MeterReading,
     MonthlySolarRecord,
     HistoricalBillEntry,
+    MonthlyElectricityIncome,
 )
 
 from .serializers import (
@@ -14,6 +15,7 @@ from .serializers import (
     MeterReadingSerializer,
     MonthlySolarRecordSerializer,
     HistoricalBillEntrySerializer,
+    MonthlyElectricityIncomeSerializer,
 )
 from decimal import Decimal
 
@@ -303,3 +305,56 @@ class HistoricalBillEntryViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(entered_by=self.request.user)
+
+
+
+#######################################################
+
+
+# ==========================================================
+# MONTHLY ELECTRICITY INCOME API
+# ==========================================================
+
+class MonthlyElectricityIncomeViewSet(viewsets.ModelViewSet):
+
+    serializer_class = MonthlyElectricityIncomeSerializer
+
+    permission_classes = [IsAuthenticated]
+
+    queryset = MonthlyElectricityIncome.objects.select_related(
+        "site",
+        "entered_by",
+    ).all()
+
+    # ------------------------------------------------------
+    # FILTER INCOME RECORDS
+    # ------------------------------------------------------
+
+    def get_queryset(self):
+
+        queryset = super().get_queryset()
+
+        site_id = self.request.query_params.get("site")
+        year = self.request.query_params.get("year")
+        month = self.request.query_params.get("month")
+
+        if site_id:
+            queryset = queryset.filter(site_id=site_id)
+
+        if year:
+            queryset = queryset.filter(year=year)
+
+        if month:
+            queryset = queryset.filter(month=month)
+
+        return queryset
+
+    # ------------------------------------------------------
+    # SAVE LOGGED-IN USER
+    # ------------------------------------------------------
+
+    def perform_create(self, serializer):
+
+        serializer.save(
+            entered_by=self.request.user
+        )
